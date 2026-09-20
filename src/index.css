@@ -5,31 +5,26 @@
 
 @theme {
   --font-sans:
-    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     sans-serif;
 
   /*
    * ---------------------------------------------------------------------
-   *  ACCENT PALETTE — change these values to re-theme the whole site.
-   *  Every accent-coloured element uses `accent-*` classes, so editing this
-   *  ramp is the only change needed. Currently: warm amber.
+   *  ACCENT PALETTE
    *
-   *  Note: 500–700 are shifted darker than stock amber on purpose. White text
-   *  on stock amber-600 (#d97706) only reaches ~3.4:1 contrast, which fails
-   *  WCAG AA. These values keep text readable in both themes.
+   *  This design is near-monochrome on purpose: the palette is neutral grey,
+   *  and `accent-*` is reserved for tiny highlights only (the dot after the
+   *  name in the header, focus rings). Resist using it for buttons, links,
+   *  headings, or icons — the restraint is what makes the design work.
+   *
+   *  Editing this ramp still re-themes that highlight globally.
    * ---------------------------------------------------------------------
    */
-  --color-accent-50: #fffbeb;
-  --color-accent-100: #fef3c7;
-  --color-accent-200: #fde68a;
   --color-accent-300: #fcd34d;
   --color-accent-400: #fbbf24;
   --color-accent-500: #f59e0b;
   --color-accent-600: #b45309;
   --color-accent-700: #92400e;
-  --color-accent-800: #78350f;
-  --color-accent-900: #451a03;
-  --color-accent-950: #2a1506;
 }
 
 @layer base {
@@ -38,24 +33,58 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /*
+   * Neutral (not slate) greys: slate carries a blue cast, which is what made
+   * the previous palette read as "tech default" rather than considered.
+   */
   body {
-    background-color: var(--color-white);
-    color: var(--color-slate-700);
+    background-color: var(--color-neutral-50);
+    color: var(--color-neutral-600);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   .dark body {
-    background-color: var(--color-slate-950);
-    color: var(--color-slate-300);
+    background-color: var(--color-neutral-950);
+    color: var(--color-neutral-400);
+  }
+
+  /*
+   * Large type at a regular weight with tight tracking is the core of this
+   * look. Bold display text reads as loud; this reads as confident.
+   */
+  h1,
+  h2,
+  h3 {
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    color: var(--color-neutral-900);
+  }
+
+  .dark h1,
+  .dark h2,
+  .dark h3 {
+    color: var(--color-neutral-50);
   }
 
   /* Stop the sticky header from covering a heading when you jump to a section. */
   section[id] {
-    scroll-margin-top: 5rem;
+    scroll-margin-top: 6rem;
+  }
+
+  /*
+   * neutral-500 on neutral-950 measures 4.18:1 — narrowly failing WCAG AA
+   * (4.5:1) for the small meta text it is used on (dates, eyebrows, locations).
+   * Remapping the token in dark mode fixes every call site at once instead of
+   * adding a `dark:` override to each one. Safe because neutral-500 is only
+   * ever used for text in this project, never a background or border.
+   */
+  .dark {
+    --color-neutral-500: var(--color-neutral-400);
   }
 
   ::selection {
-    background-color: color-mix(in oklab, var(--color-accent-400) 35%, transparent);
+    background-color: color-mix(in oklab, var(--color-accent-400) 30%, transparent);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -70,5 +99,21 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+  }
+}
+
+@layer utilities {
+  /*
+   * Surfaces are translucent white/black rather than solid card colours, so
+   * they sit softly on the page background instead of stacking as blocks.
+   */
+  .surface {
+    background-color: color-mix(in oklab, var(--color-neutral-900) 3%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-neutral-900) 8%, transparent);
+  }
+
+  .dark .surface {
+    background-color: color-mix(in oklab, var(--color-white) 3.5%, transparent);
+    border-color: color-mix(in oklab, var(--color-white) 9%, transparent);
   }
 }

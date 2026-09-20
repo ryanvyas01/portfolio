@@ -9,33 +9,33 @@ export function Contact() {
       id="contact"
       eyebrow="Contact"
       title="Let's work together"
-      description="I'm always happy to talk about new roles, projects, or interesting problems. The fastest way to reach me is email."
+      description="I'm always happy to talk about new roles, projects, or interesting problems."
     >
-      <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-8 sm:p-10 dark:border-slate-800 dark:bg-slate-900/40">
+      <div className="surface rounded-lg p-8 sm:p-10">
         <a
           href={`mailto:${profile.email}`}
-          className="group inline-flex items-center gap-3 text-xl font-semibold text-slate-900 transition-colors hover:text-accent-600 sm:text-2xl dark:text-white dark:hover:text-accent-400"
+          className="inline-flex items-baseline gap-3 text-xl tracking-tight text-neutral-900 transition-opacity hover:opacity-70 sm:text-2xl dark:text-white"
         >
           <Mail
-            className="h-6 w-6 shrink-0 text-accent-600 dark:text-accent-400"
+            className="h-5 w-5 shrink-0 translate-y-0.5 text-neutral-400"
             aria-hidden="true"
           />
           {profile.email}
         </a>
 
-        <p className="mt-4 flex items-center gap-2 text-slate-500 dark:text-slate-500">
+        <p className="mt-5 flex items-center gap-2 text-sm text-neutral-500">
           <MapPin className="h-4 w-4" aria-hidden="true" />
           {profile.location}
         </p>
 
-        <ul className="mt-8 flex flex-wrap gap-3">
+        <ul className="mt-9 flex flex-wrap gap-2">
           {socials.map((social) => (
             <li key={social.label}>
               <a
                 href={social.href}
                 target={social.href.startsWith('http') ? '_blank' : undefined}
                 rel={social.href.startsWith('http') ? 'noreferrer' : undefined}
-                className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-slate-400 hover:bg-white dark:border-slate-700 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-900"
+                className="inline-flex items-center gap-2 rounded-lg border border-neutral-300 px-4 py-2 text-sm text-neutral-700 transition-colors hover:bg-neutral-100 dark:border-white/15 dark:text-neutral-200 dark:hover:bg-white/[0.06]"
               >
                 <BrandIcon name={social.icon} className="h-4 w-4" />
                 {social.label}

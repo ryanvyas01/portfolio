@@ -29,7 +29,7 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         isScrolled
-          ? 'border-b border-slate-200/80 bg-white/80 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/80'
+          ? 'border-b border-neutral-200/80 bg-neutral-50/80 backdrop-blur-xl dark:border-white/[0.07] dark:bg-neutral-950/80'
           : 'border-b border-transparent'
       }`}
     >
@@ -40,12 +40,14 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
         <a
           href="#top"
           onClick={closeMenu}
-          className="rounded text-base font-semibold tracking-tight text-slate-900 transition-colors hover:text-accent-600 dark:text-white dark:hover:text-accent-400"
+          className="text-sm font-medium tracking-tight text-neutral-900 transition-opacity hover:opacity-70 dark:text-white"
         >
           {profile.name}
+          {/* The one deliberate flash of colour on the page. */}
+          <span className="text-accent-500">.</span>
         </a>
 
-        <ul className="hidden items-center gap-1 md:flex">
+        <ul className="hidden items-center gap-7 md:flex">
           {navItems.map((item) => {
             const isActive = activeId === item.id
             return (
@@ -53,10 +55,10 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
                 <a
                   href={`#${item.id}`}
                   aria-current={isActive ? 'true' : undefined}
-                  className={`rounded-full px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`text-sm transition-colors ${
                     isActive
-                      ? 'bg-accent-50 text-accent-700 dark:bg-accent-500/10 dark:text-accent-300'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white'
+                      ? 'text-neutral-900 dark:text-white'
+                      : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white'
                   }`}
                 >
                   {item.label}
@@ -66,13 +68,13 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
           })}
         </ul>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5">
           <button
             type="button"
             onClick={onToggleTheme}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:hover:text-white"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-neutral-500 transition-colors hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-white/[0.06] dark:hover:text-white"
           >
             {theme === 'dark' ? (
               <Sun className="h-[18px] w-[18px]" aria-hidden="true" />
@@ -86,19 +88,19 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMenuOpen}
-            className="rounded-full p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 md:hidden dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-neutral-500 transition-colors hover:bg-neutral-200/60 hover:text-neutral-900 md:hidden dark:text-neutral-400 dark:hover:bg-white/[0.06] dark:hover:text-white"
           >
             {isMenuOpen ? (
-              <X className="h-5 w-5" aria-hidden="true" />
+              <X className="h-[18px] w-[18px]" aria-hidden="true" />
             ) : (
-              <Menu className="h-5 w-5" aria-hidden="true" />
+              <Menu className="h-[18px] w-[18px]" aria-hidden="true" />
             )}
           </button>
         </div>
       </nav>
 
       {isMenuOpen ? (
-        <div className="border-t border-slate-200 bg-white md:hidden dark:border-slate-800 dark:bg-slate-950">
+        <div className="border-t border-neutral-200/80 bg-neutral-50 md:hidden dark:border-white/[0.07] dark:bg-neutral-950">
           <ul className="mx-auto max-w-5xl space-y-1 px-6 py-4">
             {navItems.map((item) => {
               const isActive = activeId === item.id
@@ -108,10 +110,10 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
                     href={`#${item.id}`}
                     onClick={closeMenu}
                     aria-current={isActive ? 'true' : undefined}
-                    className={`block rounded-lg px-3 py-2 text-base font-medium transition-colors ${
+                    className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
                       isActive
-                        ? 'bg-accent-50 text-accent-700 dark:bg-accent-500/10 dark:text-accent-300'
-                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white'
+                        ? 'bg-neutral-200/60 text-neutral-900 dark:bg-white/[0.06] dark:text-white'
+                        : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-white/[0.06] dark:hover:text-white'
                     }`}
                   >
                     {item.label}

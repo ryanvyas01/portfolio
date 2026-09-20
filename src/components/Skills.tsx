@@ -9,20 +9,17 @@ export function Skills() {
       title="What I work with"
       description="Tools and technologies I reach for most often."
     >
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-px overflow-hidden rounded-lg border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-3 dark:border-white/[0.09] dark:bg-white/[0.09]">
         {skills.map((group) => (
-          <div
-            key={group.category}
-            className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/40"
-          >
-            <h3 className="text-sm font-semibold tracking-wider text-slate-500 uppercase dark:text-slate-500">
+          <div key={group.category} className="bg-neutral-50 p-6 dark:bg-neutral-950">
+            <h3 className="text-xs tracking-[0.12em] text-neutral-500 uppercase">
               {group.category}
             </h3>
-            <ul className="mt-4 flex flex-wrap gap-2">
+            <ul className="mt-4 flex flex-wrap gap-x-2 gap-y-1.5">
               {group.items.map((item) => (
                 <li
                   key={item}
-                  className="rounded-full border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 dark:border-slate-700 dark:text-slate-300"
+                  className="text-sm text-neutral-600 dark:text-neutral-400"
                 >
                   {item}
                 </li>

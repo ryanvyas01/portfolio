@@ -21,32 +21,25 @@ export function Portrait() {
   const showImage = Boolean(profile.photoUrl) && !hasFailed
 
   return (
-    <div className="relative shrink-0">
-      <div
-        aria-hidden="true"
-        className="absolute -inset-6 rounded-full bg-accent-500/20 blur-3xl"
-      />
-
-      <div className="relative h-44 w-44 overflow-hidden rounded-3xl bg-slate-100 ring-1 ring-slate-200 ring-offset-4 ring-offset-white sm:h-52 sm:w-52 dark:bg-slate-900 dark:ring-slate-800 dark:ring-offset-slate-950">
-        {showImage ? (
-          <img
-            src={profile.photoUrl}
-            alt={`Portrait of ${profile.name}`}
-            onError={() => setHasFailed(true)}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div
-            className="flex h-full w-full items-center justify-center bg-gradient-to-br from-accent-500/20 to-accent-700/20"
-            role="img"
-            aria-label={`${profile.name} monogram`}
-          >
-            <span className="text-5xl font-bold tracking-tight text-accent-700 sm:text-6xl dark:text-accent-300">
-              {initialsOf(profile.name)}
-            </span>
-          </div>
-        )}
-      </div>
+    <div className="h-40 w-40 shrink-0 overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 sm:h-48 sm:w-48 dark:border-white/10 dark:bg-white/[0.03]">
+      {showImage ? (
+        <img
+          src={profile.photoUrl}
+          alt={`Portrait of ${profile.name}`}
+          onError={() => setHasFailed(true)}
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        <div
+          className="flex h-full w-full items-center justify-center"
+          role="img"
+          aria-label={`${profile.name} monogram`}
+        >
+          <span className="text-4xl font-normal tracking-tight text-neutral-400 sm:text-5xl dark:text-neutral-600">
+            {initialsOf(profile.name)}
+          </span>
+        </div>
+      )}
     </div>
   )
 }
