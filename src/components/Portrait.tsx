@@ -17,13 +17,13 @@ function initialsOf(name: string) {
  * feathered circular mask. On hover it eases up, scales slightly, and leans
  * toward the cursor.
  *
- * The nesting order matters. The transform is outermost, then the shadow
- * filter, then the mask on the image itself:
+ * The transform sits on an outer wrapper rather than on the masked image, so
+ * the masked subtree is rasterised once into a layer and the motion just moves
+ * that layer, keeping it cheap.
  *
- * - Mask inside the filter means the shadow follows the *faded* silhouette
- *   instead of being clipped off by the mask.
- * - Transform outermost means the filtered, masked subtree is rasterised once
- *   into a layer and the motion just moves that layer, keeping it cheap.
+ * No drop shadow: against the light page a broad shadow read as haze around the
+ * subject rather than depth, and against the dark page it read as grime. The
+ * feathered edge is what separates the portrait from the background.
  *
  * Falls back to a monogram if the image is missing, so the layout never shows a
  * broken image.
@@ -52,17 +52,15 @@ export function Portrait() {
   return (
     <div className="relative flex justify-center">
       <div ref={motionRef} className="relative">
-        <div className="portrait-shadow">
-          <picture>
-            <source srcSet="/portrait.webp" type="image/webp" />
-            <img
-              src={profile.photoUrl}
-              alt={`Portrait of ${profile.name}`}
-              onError={() => setHasFailed(true)}
-              className="portrait-fade block w-[300px] max-w-full select-none sm:w-[370px] lg:w-[440px]"
-            />
-          </picture>
-        </div>
+        <picture>
+          <source srcSet="/portrait.webp" type="image/webp" />
+          <img
+            src={profile.photoUrl}
+            alt={`Portrait of ${profile.name}`}
+            onError={() => setHasFailed(true)}
+            className="portrait-fade block w-[300px] max-w-full select-none sm:w-[370px] lg:w-[440px]"
+          />
+        </picture>
       </div>
     </div>
   )

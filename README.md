@@ -87,9 +87,11 @@ entirely under `prefers-reduced-motion` and on devices without a real pointer.
 
 Its edges are dissolved into the page by a radial mask rather than cut off as a
 rectangle — see the `.portrait-fade` utility in [`src/index.css`](src/index.css).
-The portrait assets are cut-outs with generous empty margin, which is what the
-fade dissolves into; regenerating without that padding will make the mask clip
-the subject.
+It carries no drop shadow on purpose: a broad shadow read as haze around the
+subject in light mode and as grime in dark mode, so the feathered edge does the
+separating instead. The portrait assets are cut-outs with generous empty margin,
+which is what the fade dissolves into; regenerating without that padding will
+make the mask clip the subject.
 
 Dark mode is the default. Light mode is used only after an explicit toggle, and
 that choice is remembered on future visits.

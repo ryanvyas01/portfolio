@@ -118,24 +118,6 @@
   }
 
   /*
-   * Lifts the cut-out portrait off the page in light mode. Two shadows: a wide
-   * soft one for depth, plus a tight one to define the contact edge. Because
-   * `drop-shadow` follows the alpha silhouette rather than the bounding box, it
-   * hugs the actual shape.
-   *
-   * Suppressed in dark mode — against a near-black page a shadow reads as grime
-   * rather than depth.
-   */
-  .portrait-shadow {
-    filter: drop-shadow(0 18px 30px rgb(0 0 0 / 0.14))
-      drop-shadow(0 2px 6px rgb(0 0 0 / 0.08));
-  }
-
-  .dark .portrait-shadow {
-    filter: none;
-  }
-
-  /*
    * Dissolves the portrait into the page. A hard-edged cut-out reads as a
    * rectangle sitting on a flat background, so the silhouette is feathered away
    * with a radial mask instead.
