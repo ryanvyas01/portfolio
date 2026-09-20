@@ -33,12 +33,19 @@ Other commands:
 Your name, bio, jobs, projects, skills, and contact links are all defined there.
 You should not need to edit anything in `src/components/`.
 
-Two asset files are referenced but not yet present:
+Two asset files are referenced:
 
-1. **Your résumé PDF** — drop it into `public/` as `resume.pdf`. Until then the
-   "Download résumé" button returns a 404.
-2. **Your photo** — drop a square image into `public/` as `portrait.jpg`. Until
-   then the hero renders a monogram of your initials.
+1. **Résumé PDF** — `public/resume.pdf` is **not present**, so the "Download
+   résumé" button returns a 404. Drop the PDF in to fix it.
+2. **Portrait** — `public/portrait.png` and `public/portrait.webp` are a
+   background-removed cut-out of the photo, shown in the hero. The `.webp` is
+   what browsers actually serve; the `.png` is the fallback. To replace it,
+   remove the background elsewhere and export a transparent square image, then
+   save both files.
+
+Keep a replacement portrait near its current ~370px. The supplied source was
+only 400×400, so a larger export displayed at the same size will look softer,
+not sharper.
 
 Also worth updating:
 
@@ -63,6 +70,14 @@ The look is deliberately near-monochrome, and a few decisions carry it:
 To re-theme the highlight colour, edit the `--color-accent-*` ramp in
 [`src/index.css`](src/index.css); every use updates at once.
 
+The hero portrait uses a scroll-linked parallax — it scales up slightly and
+drifts downward so it lags behind the page, which is what reads as depth. See
+[`src/hooks/useParallax.ts`](src/hooks/useParallax.ts); its defaults were
+measured off the reference site. The motion is interpolated toward the scroll
+position rather than snapped to it, and the animation loop parks itself once the
+element settles so an idle page costs nothing. It is skipped entirely under
+`prefers-reduced-motion`.
+
 Dark mode is the default. Light mode is used only after an explicit toggle, and
 that choice is remembered on future visits.
 
@@ -75,6 +90,7 @@ src/
   hooks/
     useTheme.ts         Light/dark mode (remembers the choice)
     useActiveSection.ts Highlights the nav link for the section in view
+    useParallax.ts      Scroll-linked drift/scale used by the hero portrait
   App.tsx               Composes the navbar, sections, and footer
   index.css             Tailwind import, design tokens, and base styles
 ```

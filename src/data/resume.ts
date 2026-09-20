@@ -81,7 +81,7 @@ export const profile = {
    * Drop a square photo into the `public/` folder as `portrait.jpg` so it
    * appears in the hero. Until then, a monogram of your initials is shown.
    */
-  photoUrl: '/portrait.jpg',
+  photoUrl: '/portrait.png',
   /** Drop your PDF in `public/` as resume.pdf and it will be linked here. */
   resumeUrl: '/resume.pdf',
 }

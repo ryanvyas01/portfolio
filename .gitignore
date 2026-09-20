@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Session checkpoints. Deliberately gitignored so they never land in commits,
+# but re-included for Cursor via .cursorignore so they stay searchable.
+.checkpoints/
