@@ -85,8 +85,10 @@ interpolated toward its target rather than snapped, and the animation loop parks
 itself once everything settles so an idle page costs nothing. It is skipped
 entirely under `prefers-reduced-motion` and on devices without a real pointer.
 
-Its edges are dissolved into the page by a radial mask rather than cut off as a
-rectangle — see the `.portrait-fade` utility in [`src/index.css`](src/index.css).
+Its edges are dissolved into the page by a feathered rectangular mask — two
+linear gradients combined with `mask-composite: intersect`, so the masked region
+stays square instead of circular — see the `.portrait-fade` utility in
+[`src/index.css`](src/index.css).
 It carries no drop shadow on purpose: a broad shadow read as haze around the
 subject in light mode and as grime in dark mode, so the feathered edge does the
 separating instead. The portrait assets are cut-outs with generous empty margin,

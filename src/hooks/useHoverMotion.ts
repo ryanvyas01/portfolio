@@ -26,9 +26,9 @@ const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min)
  * real pointer (`hover: none`), where there is no hover to respond to.
  */
 export function useHoverMotion<T extends HTMLElement>({
-  scale = 0.05,
-  lift = 16,
-  follow = 10,
+  scale = 0.025,
+  lift = 8,
+  follow = 5,
   smoothing = 0.1,
 }: HoverMotionOptions = {}) {
   const ref = useRef<T>(null)

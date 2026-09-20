@@ -118,27 +118,31 @@
   }
 
   /*
-   * Dissolves the portrait into the page. A hard-edged cut-out reads as a
-   * rectangle sitting on a flat background, so the silhouette is feathered away
-   * with a radial mask instead.
+   * Dissolves the portrait into the page with a soft rim fade, but keeps the
+   * masked region rectangular rather than circular.
    *
-   * The radii are given as explicit percentages of the element (not
-   * `closest-side`, which shrinks the circle against the nearest edge) so the
-   * solid area stays generous: fully opaque out to 72% of the radius, fading to
-   * nothing at 100%, which lands exactly on the element's horizontal edges and
-   * leaves no visible rectangle. Centred slightly above middle so it sits on
-   * the face rather than the bounding box.
+   * Two linear gradients (one per axis) are combined with `intersect`, so the
+   * alpha multiplies and the result is a rectangle whose four edges feather
+   * away. Corners feather from both ramps at once, which softens them slightly
+   * — enough to avoid a hard corner without reading as a rounded shape.
+   *
+   * Horizontal ramps are wider than the subject's own transparent margins (the
+   * cut-out starts ~16% in from each side), so the side fade settles onto
+   * already-transparent pixels and just softens the silhouette.
+   *
+   * The bottom ramp is the one doing real work: the subject's shoulders and
+   * chest run all the way to the canvas edge, so it is deliberately long
+   * (63% → 100%) so the body dissolves into the page instead of ending in a
+   * hard line. The head and shoulders above 63% stay fully opaque.
    */
   .portrait-fade {
-    -webkit-mask-image: radial-gradient(
-      ellipse 50% 50% at 50% 44%,
-      #000 72%,
-      transparent 100%
-    );
-    mask-image: radial-gradient(
-      ellipse 50% 50% at 50% 44%,
-      #000 72%,
-      transparent 100%
-    );
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 14%, #000 63%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 14%, #000 63%, transparent 100%);
+    mask-composite: intersect;
   }
 }
