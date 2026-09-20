@@ -34,6 +34,12 @@ export function Experience() {
                   &middot; {job.location}
                 </span>
               ) : null}
+              {job.employmentType ? (
+                <span className="font-normal text-slate-500 dark:text-slate-500">
+                  {' '}
+                  &middot; {job.employmentType}
+                </span>
+              ) : null}
             </p>
 
             {job.summary ? (

@@ -5,17 +5,17 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Ryan Vyas — Senior Software Engineer</title>
+    <title>Ryan Vyas — AI Software Engineer</title>
     <meta
       name="description"
-      content="Personal portfolio of Ryan Vyas, a senior software engineer building fast, reliable backend systems and the interfaces on top of them."
+      content="Personal portfolio of Ryan Vyas, an AI software engineer at Ziosk working across React Native, C++, C#, and applied AI."
     />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Ryan Vyas — Senior Software Engineer" />
+    <meta property="og:title" content="Ryan Vyas — AI Software Engineer" />
     <meta
       property="og:description"
-      content="Personal portfolio of Ryan Vyas, a senior software engineer building fast, reliable backend systems and the interfaces on top of them."
+      content="Personal portfolio of Ryan Vyas, an AI software engineer at Ziosk working across React Native, C++, C#, and applied AI."
     />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,22 +25,23 @@
       rel="stylesheet"
     />
 
-    <!-- Apply the saved theme before first paint to avoid a flash of the wrong colour scheme. -->
+    <!--
+      Apply the theme before first paint to avoid a flash of the wrong colour
+      scheme. Dark is the default; light is only used if explicitly chosen.
+      This must stay in sync with getInitialTheme() in src/hooks/useTheme.ts.
+    -->
     <script>
       ;(function () {
+        var theme = 'dark'
         try {
-          var stored = localStorage.getItem('portfolio-theme')
-          var theme =
-            stored === 'light' || stored === 'dark'
-              ? stored
-              : window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light'
-          document.documentElement.classList.toggle('dark', theme === 'dark')
-          document.documentElement.style.colorScheme = theme
+          if (localStorage.getItem('portfolio-theme') === 'light') {
+            theme = 'light'
+          }
         } catch (error) {
-          /* localStorage can be unavailable in private mode — fall back to light. */
+          /* localStorage can be unavailable in private mode — default to dark. */
         }
+        document.documentElement.classList.toggle('dark', theme === 'dark')
+        document.documentElement.style.colorScheme = theme
       })()
     </script>
   </head>

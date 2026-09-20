@@ -61,8 +61,8 @@ src/
 
 ## Notes
 
-- Dark mode follows your system preference on first visit, then remembers
-  whatever you toggle it to.
+- **Dark mode is the default.** Light mode is only used once you toggle to it,
+  and that choice is remembered on future visits.
 - Design choices favour accessibility: honest heading order, `aria-label`s on
   icon-only buttons, and a skip link for keyboard users.
 - The site is fully responsive; the header links collapse into a menu on mobile.

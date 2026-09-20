@@ -71,12 +71,13 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
             type="button"
             onClick={onToggleTheme}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            className="rounded-full p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white"
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             {theme === 'dark' ? (
-              <Sun className="h-5 w-5" aria-hidden="true" />
+              <Sun className="h-[18px] w-[18px]" aria-hidden="true" />
             ) : (
-              <Moon className="h-5 w-5" aria-hidden="true" />
+              <Moon className="h-[18px] w-[18px]" aria-hidden="true" />
             )}
           </button>
 

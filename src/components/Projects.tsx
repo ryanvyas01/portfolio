@@ -20,9 +20,16 @@ export function Projects() {
             }`}
           >
             <div className="flex items-start justify-between gap-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                {project.name}
-              </h3>
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                  {project.name}
+                </h3>
+                {project.period ? (
+                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-500">
+                    {project.period}
+                  </p>
+                ) : null}
+              </div>
               {project.featured ? (
                 <span className="shrink-0 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300">
                   Featured

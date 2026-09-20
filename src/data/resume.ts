@@ -5,10 +5,9 @@
  *  Every piece of text on the page comes from this file, so you can update
  *  your whole portfolio without touching the components in /src/components.
  *
- *  !! CURRENT STATE: PLACEHOLDER COPY !!
- *  This is realistic filler written to show off the layout while we develop
- *  the look and feel. The name is real; the jobs, projects, metrics, and
- *  dates are invented. Replace them before this goes anywhere public.
+ *  Sourced from linkedin.com/in/ryan-vyas-uint16. Light edits only: em dashes,
+ *  contact details moved into the Contact section, and LinkedIn's "... more"
+ *  truncation markers removed. Nothing was invented.
  */
 
 export type SocialLink = {
@@ -27,6 +26,7 @@ export type Experience = {
   company: string
   role: string
   location?: string
+  employmentType?: string
   start: string
   end: string
   summary?: string
@@ -36,6 +36,7 @@ export type Experience = {
 
 export type Project = {
   name: string
+  period?: string
   description: string
   highlights?: string[]
   tech: string[]
@@ -65,47 +66,32 @@ export type Certification = {
   url?: string
 }
 
-export type Testimonial = {
-  quote: string
-  name: string
-  title: string
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Navigation — one entry per section on the page. Order controls the layout. */
-/* -------------------------------------------------------------------------- */
-
-export const navItems: NavItem[] = [
-  { id: 'about', label: 'About' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'education', label: 'Education' },
-  { id: 'testimonials', label: 'Testimonials' },
-  { id: 'contact', label: 'Contact' },
-]
-
 /* -------------------------------------------------------------------------- */
 /*  Hero + contact details                                                     */
 /* -------------------------------------------------------------------------- */
 
 export const profile = {
   name: 'Ryan Vyas',
-  title: 'Senior Software Engineer',
+  title: 'AI Software Engineer',
   tagline:
-    'I design and build systems that stay fast and correct under real-world load — from event-driven backends to interfaces people actually enjoy using.',
-  location: 'Chicago, IL',
-  email: 'ryan@example.com',
+    'Proactive engineer with a strong focus on business needs — I refactor legacy codebases, ship new products, and deliver long-term fixes for mission-critical problems.',
+  location: 'Dallas–Fort Worth, TX',
+  email: 'ryanvyasrv@gmail.com',
+  // NOTE: your LinkedIn says "Open to work · Recruiters only". A public banner
+  // is more visible than that setting implies — soften or remove if you prefer.
   availability: 'Open to new opportunities',
-  /** Drop your PDF in `public/` and reference it here. */
+  /** Drop your PDF in `public/` as resume.pdf and it will be linked here. */
   resumeUrl: '/resume.pdf',
 }
 
-/** The buttons and links shown in the hero and contact sections. */
+/** Shown in the hero and in the Contact section. */
 export const socials: SocialLink[] = [
-  { label: 'GitHub', href: 'https://github.com/your-username', icon: 'github' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ryan-vyas-uint16/', icon: 'linkedin' },
-  { label: 'Email', href: 'mailto:ryan@example.com', icon: 'mail' },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/ryan-vyas-uint16/',
+    icon: 'linkedin',
+  },
+  { label: 'Email', href: 'mailto:ryanvyasrv@gmail.com', icon: 'mail' },
 ]
 
 /* -------------------------------------------------------------------------- */
@@ -113,18 +99,16 @@ export const socials: SocialLink[] = [
 /* -------------------------------------------------------------------------- */
 
 export const about = {
-  /** Each string becomes its own paragraph. */
   paragraphs: [
-    'I am a software engineer with eight years of experience building products across fintech and developer tooling. These days I spend most of my time on the boundary between backend systems and the people who use them — designing APIs, untangling data models, and making sure the interface tells the truth about what is happening underneath.',
-    'I have led projects from first sketch to production, mentored engineers through their first on-call rotations, and spent more than one long night chasing a memory leak that turned out to be a cache key collision. I care about systems that are boring in the best way: predictable, observable, and easy for the next person to change.',
-    'Outside of work I write about debugging, contribute to a couple of small open-source libraries, and am slowly teaching myself hardware by breaking inexpensive microcontrollers.',
+    "Got products with existing and incoming bugs you can't seem to get away from? Get in touch — let's fix them and make your users happy.",
+    'Proactive engineer with a strong focus on business needs. Proven track record of delivering new products prioritizing the user experience to drive sales and customer acquisition. I pride myself on delivering long-term solutions for mission critical, time sensitive issues.',
+    'Experienced in working with and refactoring legacy code bases to address system design issues, streamline development, and future-proof performance and maintainability — as well as leading teams, cross-module projects, and architecting solutions.',
   ],
-  /** Quick facts rendered as a small grid beside your bio. */
   highlights: [
-    { label: 'Years of experience', value: '8' },
-    { label: 'Focus', value: 'Backend & platform' },
-    { label: 'Based in', value: 'Chicago, IL' },
-    { label: 'Availability', value: 'Open to work' },
+    { label: 'Experience', value: '3+ years' },
+    { label: 'Focus', value: 'AI & full-stack' },
+    { label: 'Based in', value: 'Dallas–Fort Worth, TX' },
+    { label: 'Education', value: 'UT Austin' },
   ],
 }
 
@@ -134,154 +118,206 @@ export const about = {
 
 export const experience: Experience[] = [
   {
-    company: 'Northwind Labs',
-    role: 'Senior Software Engineer',
-    location: 'Chicago, IL',
-    start: 'Mar 2022',
+    company: 'Ziosk',
+    role: 'AI Software Engineer',
+    location: 'Plano, TX',
+    employmentType: 'Full-time · Hybrid',
+    start: 'Jun 2026',
     end: 'Present',
     summary:
-      'Payments platform team of six, owning the ledger and the services that move money between accounts.',
+      'Owns production across the stack — React Native and legacy C++ on the tablet front end, C# in the payments backend.',
     highlights: [
-      'Re-architected the double-entry ledger onto an append-only event log, cutting reconciliation failures by 94% and making every balance auditable back to its originating transaction.',
-      'Drove a migration of 40+ services onto a shared typed API layer, which removed an entire class of serialization bugs and cut new-endpoint setup from days to under an hour.',
-      'Cut p99 checkout latency from 840ms to 210ms by profiling and eliminating a chatty fan-out, then adding read-through caching for the hot path.',
-      'Mentored two engineers through their first year, both of whom now lead their own service areas.',
+      'Own critical production across the stack, from React Native / legacy C++ frontend to a C# payments backend — incidents plus product work.',
+      'Enabled E2E regression test generation for tablets using a proprietary OpenGL C++ renderer by building a compatibility layer into the engine for Appium, then building an MCP server for AI to control Appium and finally utilizing the agentic system to generate repeatable E2E scripts.',
+      'Serve on an AI Integration POD with executives and stakeholders to turn AI-first initiatives into shared agentic skills, projects, and systems other teams actually run.',
     ],
-    tech: ['TypeScript', 'Go', 'PostgreSQL', 'Kafka', 'AWS', 'Kubernetes'],
+    tech: ['React Native', 'C++', 'C#', 'OpenGL', 'Appium', 'MCP'],
   },
   {
-    company: 'Meridian Analytics',
+    company: 'Ziosk',
     role: 'Software Engineer',
-    location: 'Remote',
-    start: 'Aug 2019',
-    end: 'Feb 2022',
+    location: 'Plano, TX',
+    employmentType: 'Full-time · Hybrid',
+    start: 'Jan 2026',
+    end: 'Jun 2026',
     summary:
-      'First backend hire on a product that turned messy customer event data into reports non-technical teams could trust.',
+      'First role at Ziosk, split between production support and the next-generation React Native tablet client.',
     highlights: [
-      'Built the ingestion pipeline that processed 200M+ events per day, with backpressure and replay so a bad deploy could be undone without data loss.',
-      'Designed the query layer that powered the reporting UI, translating a visual query builder into safe, parameterized SQL.',
-      'Introduced integration testing against a real Postgres instance in CI, dropping production incidents from roughly monthly to none over two quarters.',
+      'Cut first-line triage for solutions engineering from days to hours by shipping an agentic RAG system and tooling that pulls JIRA and multi-repo context, locating the failing layer, and routing the issue to the owning team.',
+      "Resolved critical and longstanding production issues for Olive Garden, Chili's, Outback, and other brands in a legacy proprietary C++ / OpenGL Android rendering engine while contributing to the next-gen React Native replacement.",
     ],
-    tech: ['Python', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'GCP'],
+    tech: ['C++', 'C#', 'React Native', 'RAG', 'JIRA'],
   },
   {
-    company: 'Brightpath Software',
-    role: 'Software Developer',
-    location: 'Chicago, IL',
-    start: 'Jul 2017',
-    end: 'Jul 2019',
+    company: 'Paycom',
+    role: 'Software Developer IV',
+    location: 'Grapevine, TX',
+    employmentType: 'Full-time · On-site',
+    start: 'Jan 2025',
+    end: 'Jan 2026',
     summary:
-      'Agency work across a dozen client projects, from scheduling tools for a clinic network to an internal inventory system.',
+      'Payroll platform work across a large legacy codebase, plus new international payroll products.',
     highlights: [
-      'Shipped a patient scheduling app used daily by 300+ staff across eleven clinics.',
-      'Learned to scope ruthlessly: the first version went live in six weeks by cutting everything that was not the appointment itself.',
+      "Restored workers' compensation data across 10M+ records in one week by fixing the broken web-app writer and shipping a PHP restore that generated SQL from system conditions and legal rules, collision-safe, until records were correct.",
+      'Designed and shipped new payroll product with stakeholders — including Ireland tax/payroll via a C# REST API, RabbitMQ, Docker, and Kubernetes.',
+      'Delivered application-wide internationalization by defining the shared pattern and mentoring junior engineers for implementation.',
     ],
-    tech: ['JavaScript', 'React', 'Node.js', 'MySQL'],
+    tech: ['C#', 'PHP', 'SQL Server', 'REST APIs', 'RabbitMQ', 'Docker', 'Kubernetes'],
   },
   {
-    company: 'TechBridge Fellowship',
-    role: 'Software Engineering Fellow',
-    location: 'Chicago, IL',
-    start: 'Jan 2017',
-    end: 'Jun 2017',
-    summary: 'Intensive full-time program covering computer science fundamentals and applied web development.',
+    company: 'Paycom',
+    role: 'Software Developer III',
+    location: 'Grapevine, TX',
+    employmentType: 'Full-time · On-site',
+    start: 'Jan 2024',
+    end: 'Dec 2024',
+    summary: "Payroll feature delivery for Paycom's international expansion.",
     highlights: [
-      'Built and presented four projects, including a peer-to-peer code review tool.',
-      'Stayed on as a part-time mentor for the following two cohorts.',
+      'Unblocked Paycom expansion into GB, IE, and CA by designing and shipping new payroll features end-to-end — React/TypeScript UI, PHP services, SQL Server, REST APIs with JWT and OpenAPI/Swagger.',
+      'Migrated legacy script-based PHP to MVC and a React frontend (HTML5, CSS) to improve scalability for that payroll work.',
+      'Owned critical production incidents from ticket to lasting fix in the web app and backend, so the same failure class did not bounce back through the queue.',
     ],
-    tech: ['JavaScript', 'Ruby on Rails', 'SQL'],
+    tech: ['React', 'TypeScript', 'PHP', 'SQL Server', 'REST APIs', 'JWT', 'OpenAPI'],
+  },
+  {
+    company: 'Aristocrat',
+    role: 'Software Engineer',
+    location: 'Austin, TX',
+    employmentType: 'Contract · On-site',
+    start: 'May 2023',
+    end: 'Oct 2023',
+    summary:
+      'Contract role on internal tooling and build infrastructure for game asset pipelines.',
+    highlights: [
+      'Cut asset-review feedback from 14 days to real time by building a C++ plugin that visualized game assets inside Adobe After Effects instead of waiting on a full review cycle.',
+      'Halved the size of 100,000+ game assets by shipping a custom texture-optimization algorithm in Node.js.',
+      'Reduced testing time from hours to minutes by implementing a Jenkins CI/CD pipeline that automated build and test for multiple software tools.',
+    ],
+    tech: ['C++', 'JavaScript', 'Node.js', 'Jenkins', 'CI/CD'],
   },
 ]
 
 /* -------------------------------------------------------------------------- */
-/*  Projects — your best 2–4                                                   */
+/*  Projects                                                                   */
 /* -------------------------------------------------------------------------- */
 
 export const projects: Project[] = [
   {
-    name: 'Backpressure',
+    name: 'CCTV Violence Detector',
+    period: 'Nov 2022 – Dec 2022',
     description:
-      'An open-source toolkit for testing how backend services behave when a dependency becomes slow instead of failing outright. Most resilience testing punishes hard failures; the failures that actually take systems down are the slow, partial ones.',
+      'An AI-driven program capable of detecting violence within video footage for CCTV applications, built around a custom ensemble classifier.',
     highlights: [
-      'Adopted by several teams testing payment and notification pipelines in staging.',
-      'Ships as a lightweight middleware with adapters for Express, Fastify, and plain Node servers.',
+      'Reduced hardware load by 70% through data processing and feature extraction.',
+      'Created a custom ensemble method to classify videos, combining the strengths of XGBoost, CLIP, and RNNs.',
+      'Achieved high accuracy in detecting violent scenes with an AUC of 0.91.',
     ],
-    tech: ['TypeScript', 'Node.js', 'Vitest'],
-    repoUrl: 'https://github.com/your-username/backpressure',
-    liveUrl: 'https://example.com',
+    tech: ['Python', 'XGBoost', 'CLIP', 'RNN', 'Pandas', 'SciKit'],
     featured: true,
   },
   {
-    name: 'Ledger Explainer',
+    name: 'Omega Optics COVID-19 Biosensor',
+    period: 'Aug 2021 – May 2022',
     description:
-      'A small tool that takes any double-entry transaction log and renders it as an interactive narrative, so a support engineer can answer "where did this money actually go?" without pulling in an accountant.',
+      'An operating system for a COVID-19 biosensor — controlling the hardware and displaying readings through a Python and PyQt interface.',
     highlights: [
-      'Handles multi-currency settlements and partial reversals.',
-      'Reduced one team\'s time-to-diagnosis on balance disputes from hours to minutes.',
+      'Designed and developed a user-friendly OS for controlling the biosensor and displaying data using Python and PyQt.',
+      'Led weekly meetings and collaborated with a cross-functional team of hardware engineers, PhD biology and optics students to bring the project from concept to deployment.',
+      'Enhanced COVID detection by reducing data noise by 50% using Pandas and SciPy.',
+      'Implemented a serial communication protocol to control hardware and retrieve sensor readings.',
+      'Designed and executed software testing strategies to ensure the reliability of the system.',
     ],
-    tech: ['React', 'TypeScript', 'D3', 'PostgreSQL'],
-    liveUrl: 'https://example.com',
-    repoUrl: 'https://github.com/your-username/ledger-explainer',
+    tech: ['Python', 'PyQt', 'Pandas', 'SciPy', 'Linux'],
   },
   {
-    name: 'Static Site Starter',
+    name: 'Monolith',
+    period: 'Aug 2021 – Dec 2021',
     description:
-      'A deliberately opinionated starter template for documentation sites and personal blogs, tuned for fast loads and no layout shift. Born out of rebuilding a corporate docs site that had somehow reached four megabytes of JavaScript.',
-    tech: ['Astro', 'Tailwind CSS', 'TypeScript'],
-    repoUrl: 'https://github.com/your-username/site-starter',
+      'A hardware-as-a-service web platform letting customers reserve products on demand, built with a small team using agile methodology.',
+    highlights: [
+      'Utilized frameworks and tools such as Flask, Bootstrap, and MongoDB to build an online service allowing customers to reserve products on demand.',
+      "Implemented JSON tokens for user accounts, greatly improving the website's security.",
+      'Conducted and contributed to the code review process to ensure high-quality code.',
+      'Worked within a team of developers utilizing agile methodology to ensure timely delivery and requirement satisfaction.',
+    ],
+    tech: ['Flask', 'Python', 'JavaScript', 'Bootstrap', 'MongoDB'],
   },
   {
-    name: 'uint16.dev',
+    name: 'Simple Bidder',
+    period: 'Nov 2020 – Dec 2020',
     description:
-      'A technical blog about debugging, performance work, and the unglamorous parts of maintaining software. The most-read post is still the one about the cache key collision.',
-    tech: ['Astro', 'MDX'],
-    liveUrl: 'https://example.com',
+      'A scalable client-server solution for hosting auctions, supporting hundreds of simultaneous bidders.',
+    highlights: [
+      'Built a scalable client-server software solution for hosting auctions using Java.',
+      'Implemented multithreading to allow hundreds of clients to connect and bid simultaneously.',
+      'Employed the observer design pattern to facilitate real-time updates for all connected clients.',
+      'Designed a user-friendly interface that provides clients with easy access to available items and bids.',
+      'Conducted extensive JUnit testing to ensure program functionality and eliminate bugs.',
+    ],
+    tech: ['Java', 'JavaFX', 'Java.net', 'Multithreading', 'JUnit'],
   },
 ]
 
 /* -------------------------------------------------------------------------- */
-/*  Skills                                                                     */
+/*  Skills — grouped from the 42 skills listed on LinkedIn                      */
 /* -------------------------------------------------------------------------- */
 
 export const skills: SkillGroup[] = [
   {
     category: 'Languages',
-    items: ['TypeScript', 'Go', 'Python', 'SQL', 'JavaScript'],
-  },
-  {
-    category: 'Backend & Data',
     items: [
-      'Node.js',
-      'PostgreSQL',
-      'Kafka',
-      'Redis',
-      'REST APIs',
-      'Event sourcing',
+      'C++',
+      'C#',
+      'C',
+      'Python',
+      'Java',
+      'JavaScript',
+      'TypeScript',
+      'PHP',
+      'SQL',
+      'Kotlin',
     ],
   },
   {
     category: 'Frontend',
-    items: ['React', 'Tailwind CSS', 'Vite', 'Accessibility', 'D3'],
+    items: ['React Native', 'React.js', 'HTML5', 'CSS', 'Bootstrap'],
   },
   {
-    category: 'Infrastructure',
+    category: 'Backend & APIs',
+    items: ['.NET', 'Node.js', 'Flask', 'GraphQL', 'Java.net'],
+  },
+  {
+    category: 'Databases',
+    items: ['SQL Server', 'MySQL', 'MongoDB'],
+  },
+  {
+    category: 'AI & Data Science',
+    items: ['Keras', 'SciKit', 'Pandas', 'SciPy'],
+  },
+  {
+    category: 'Cloud, DevOps & Tools',
     items: [
-      'AWS',
-      'Kubernetes',
+      'Microsoft Azure',
       'Docker',
-      'Terraform',
-      'GitHub Actions',
-      'Observability',
+      'Kubernetes',
+      'CI/CD',
+      'Git',
+      'Linux',
+      'JavaFX',
+      'PyQt',
+      'VS Code',
+      'IntelliJ IDEA',
+      'Eclipse',
     ],
   },
   {
-    category: 'Practices',
+    category: 'Strengths',
     items: [
-      'System design',
-      'Code review',
-      'Mentoring',
-      'Incident response',
-      'Technical writing',
+      'Problem Solving',
+      'Team Leadership',
+      'Team Management',
+      'Communication',
+      'Multithreading',
     ],
   },
 ]
@@ -292,51 +328,38 @@ export const skills: SkillGroup[] = [
 
 export const education: Education[] = [
   {
-    school: 'University of Illinois at Chicago',
-    credential: 'B.S. in Computer Science',
-    start: '2013',
-    end: '2017',
-    details: [
-      'Minor in Mathematics. Coursework in distributed systems, databases, and compilers.',
-      'Teaching assistant for the introductory data structures course for three semesters.',
-    ],
+    school: 'The University of Texas at Austin',
+    credential: 'B.S. in Electrical and Computer Engineering',
+    field: 'Cockrell School of Engineering',
+    start: 'Aug 2018',
+    end: 'May 2023',
+    details: ['Activities and societies: E-nable, NSBE.'],
   },
 ]
 
 export const certifications: Certification[] = [
   {
-    name: 'AWS Certified Solutions Architect – Associate',
-    issuer: 'Amazon Web Services',
-    year: '2024',
+    name: 'Confluence Fundamentals Badge',
+    issuer: 'Aristocrat Gaming',
+    year: '2023',
   },
   {
-    name: 'Certified Kubernetes Application Developer',
-    issuer: 'Cloud Native Computing Foundation',
+    name: 'Jira Fundamentals Badge',
+    issuer: 'Aristocrat Gaming',
     year: '2023',
   },
 ]
 
 /* -------------------------------------------------------------------------- */
-/*  Testimonials                                                               */
+/*  Navigation — derived from the sections above so the two stay in sync.      */
+/*  Reorder this array to reorder the page.                                    */
 /* -------------------------------------------------------------------------- */
 
-export const testimonials: Testimonial[] = [
-  {
-    quote:
-      'Ryan has a rare instinct for finding the one design decision that everything else hinges on. He rewrote our ledger approach and quietly made two years of accumulated workarounds unnecessary.',
-    name: 'Dana Whitfield',
-    title: 'Engineering Manager, Northwind Labs',
-  },
-  {
-    quote:
-      'He is the person I go to when something is wrong and nobody can explain why. Ryan reads a stack trace the way other people read a map.',
-    name: 'Marcus Iyer',
-    title: 'Staff Engineer, Meridian Analytics',
-  },
-  {
-    quote:
-      'The most patient mentor I have had. He never just handed me the answer, but he also never let me flounder for longer than I needed to.',
-    name: 'Priya Raman',
-    title: 'Software Engineer, Northwind Labs',
-  },
+export const navItems: NavItem[] = [
+  { id: 'about', label: 'About' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'education', label: 'Education' },
+  { id: 'contact', label: 'Contact' },
 ]
