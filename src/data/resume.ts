@@ -1,17 +1,20 @@
 /**
  * ============================================================================
- *  EDIT THIS FILE TO MAKE THE SITE YOURS
+ *  SITE CONTENT — EDIT THIS FILE TO MAKE THE SITE YOURS
  * ============================================================================
  *  Every piece of text on the page comes from this file, so you can update
  *  your whole portfolio without touching the components in /src/components.
  *
- *  Anything marked with TODO is placeholder content — swap it for your details.
+ *  !! CURRENT STATE: PLACEHOLDER COPY !!
+ *  This is realistic filler written to show off the layout while we develop
+ *  the look and feel. The name is real; the jobs, projects, metrics, and
+ *  dates are invented. Replace them before this goes anywhere public.
  */
 
 export type SocialLink = {
   label: string
   href: string
-  /** Icon key handled in components/BrandIcon.tsx, or a lucide icon name. */
+  /** Icon key handled in components/BrandIcon.tsx. */
   icon: 'github' | 'linkedin' | 'x' | 'mail' | 'website'
 }
 
@@ -62,6 +65,12 @@ export type Certification = {
   url?: string
 }
 
+export type Testimonial = {
+  quote: string
+  name: string
+  title: string
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Navigation — one entry per section on the page. Order controls the layout. */
 /* -------------------------------------------------------------------------- */
@@ -72,6 +81,7 @@ export const navItems: NavItem[] = [
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
   { id: 'education', label: 'Education' },
+  { id: 'testimonials', label: 'Testimonials' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -80,29 +90,22 @@ export const navItems: NavItem[] = [
 /* -------------------------------------------------------------------------- */
 
 export const profile = {
-  // TODO: your name
-  name: 'Your Name',
-  // TODO: what you do — this is the big line under your name
-  title: 'Software Engineer',
-  // TODO: one sentence on what you're about
+  name: 'Ryan Vyas',
+  title: 'Senior Software Engineer',
   tagline:
-    'I build reliable, user-focused software — from data-heavy backends to polished interfaces.',
-  // TODO: where you're based
-  location: 'City, State',
-  // TODO: your email
-  email: 'you@example.com',
-  // A short line shown at the top of the Contact section
+    'I design and build systems that stay fast and correct under real-world load — from event-driven backends to interfaces people actually enjoy using.',
+  location: 'Chicago, IL',
+  email: 'ryan@example.com',
   availability: 'Open to new opportunities',
-  // Drop your PDF in the `public/` folder and reference it here.
+  /** Drop your PDF in `public/` and reference it here. */
   resumeUrl: '/resume.pdf',
 }
 
-/** The buttons and links shown in the hero and footer. */
+/** The buttons and links shown in the hero and contact sections. */
 export const socials: SocialLink[] = [
-  // TODO: replace with your real profiles (delete any you don't use)
   { label: 'GitHub', href: 'https://github.com/your-username', icon: 'github' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/your-username', icon: 'linkedin' },
-  { label: 'Email', href: 'mailto:you@example.com', icon: 'mail' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ryan-vyas-uint16/', icon: 'linkedin' },
+  { label: 'Email', href: 'mailto:ryan@example.com', icon: 'mail' },
 ]
 
 /* -------------------------------------------------------------------------- */
@@ -110,16 +113,17 @@ export const socials: SocialLink[] = [
 /* -------------------------------------------------------------------------- */
 
 export const about = {
-  // Each string becomes its own paragraph.
+  /** Each string becomes its own paragraph. */
   paragraphs: [
-    "TODO: Write two or three short paragraphs here. This is the 'elevator pitch' version of your resume — who you are, what you've worked on, and what kind of problems you like solving.",
-    'A good structure: start with your current role and focus, then mention a couple of things you have shipped or led, and finish with what you are looking for next.',
+    'I am a software engineer with eight years of experience building products across fintech and developer tooling. These days I spend most of my time on the boundary between backend systems and the people who use them — designing APIs, untangling data models, and making sure the interface tells the truth about what is happening underneath.',
+    'I have led projects from first sketch to production, mentored engineers through their first on-call rotations, and spent more than one long night chasing a memory leak that turned out to be a cache key collision. I care about systems that are boring in the best way: predictable, observable, and easy for the next person to change.',
+    'Outside of work I write about debugging, contribute to a couple of small open-source libraries, and am slowly teaching myself hardware by breaking inexpensive microcontrollers.',
   ],
-  // Quick facts rendered as a small grid beside your bio.
+  /** Quick facts rendered as a small grid beside your bio. */
   highlights: [
-    { label: 'Years of experience', value: '5+' },
-    { label: 'Focus', value: 'Full-stack' },
-    { label: 'Based in', value: 'City, ST' },
+    { label: 'Years of experience', value: '8' },
+    { label: 'Focus', value: 'Backend & platform' },
+    { label: 'Based in', value: 'Chicago, IL' },
     { label: 'Availability', value: 'Open to work' },
   ],
 }
@@ -130,74 +134,107 @@ export const about = {
 
 export const experience: Experience[] = [
   {
-    company: 'Company Name',
+    company: 'Northwind Labs',
     role: 'Senior Software Engineer',
-    location: 'City, State',
-    start: 'Jan 2023',
+    location: 'Chicago, IL',
+    start: 'Mar 2022',
     end: 'Present',
-    summary: 'One line on your scope and the team you work with.',
+    summary:
+      'Payments platform team of six, owning the ledger and the services that move money between accounts.',
     highlights: [
-      'Led a project and describe the outcome with a number — e.g. "cut page load time by 40%" or "grew signups 25%".',
-      'Explain something you owned end-to-end and the impact it had on users or the business.',
-      'Mention collaboration, mentoring, or process improvements you drove.',
+      'Re-architected the double-entry ledger onto an append-only event log, cutting reconciliation failures by 94% and making every balance auditable back to its originating transaction.',
+      'Drove a migration of 40+ services onto a shared typed API layer, which removed an entire class of serialization bugs and cut new-endpoint setup from days to under an hour.',
+      'Cut p99 checkout latency from 840ms to 210ms by profiling and eliminating a chatty fan-out, then adding read-through caching for the hot path.',
+      'Mentored two engineers through their first year, both of whom now lead their own service areas.',
     ],
-    tech: ['TypeScript', 'React', 'Node.js', 'PostgreSQL', 'AWS'],
+    tech: ['TypeScript', 'Go', 'PostgreSQL', 'Kafka', 'AWS', 'Kubernetes'],
   },
   {
-    company: 'Previous Company',
+    company: 'Meridian Analytics',
     role: 'Software Engineer',
-    location: 'City, State',
-    start: 'Jun 2020',
-    end: 'Dec 2022',
-    summary: 'One line on what the product did and your role in it.',
+    location: 'Remote',
+    start: 'Aug 2019',
+    end: 'Feb 2022',
+    summary:
+      'First backend hire on a product that turned messy customer event data into reports non-technical teams could trust.',
     highlights: [
-      'Describe a feature you shipped and who it helped.',
-      'Describe a tricky bug, migration, or performance win you resolved.',
+      'Built the ingestion pipeline that processed 200M+ events per day, with backpressure and replay so a bad deploy could be undone without data loss.',
+      'Designed the query layer that powered the reporting UI, translating a visual query builder into safe, parameterized SQL.',
+      'Introduced integration testing against a real Postgres instance in CI, dropping production incidents from roughly monthly to none over two quarters.',
     ],
-    tech: ['Python', 'Django', 'React', 'Docker'],
+    tech: ['Python', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'GCP'],
   },
   {
-    company: 'First Company',
-    role: 'Junior Developer',
-    location: 'City, State',
-    start: 'Jul 2018',
-    end: 'May 2020',
-    summary: 'Where you started and what you learned.',
+    company: 'Brightpath Software',
+    role: 'Software Developer',
+    location: 'Chicago, IL',
+    start: 'Jul 2017',
+    end: 'Jul 2019',
+    summary:
+      'Agency work across a dozen client projects, from scheduling tools for a clinic network to an internal inventory system.',
     highlights: [
-      'Turn responsibilities into results wherever you can.',
-      'It is fine to keep older roles shorter — depth matters more than length.',
+      'Shipped a patient scheduling app used daily by 300+ staff across eleven clinics.',
+      'Learned to scope ruthlessly: the first version went live in six weeks by cutting everything that was not the appointment itself.',
     ],
-    tech: ['JavaScript', 'HTML/CSS', 'MySQL'],
+    tech: ['JavaScript', 'React', 'Node.js', 'MySQL'],
+  },
+  {
+    company: 'TechBridge Fellowship',
+    role: 'Software Engineering Fellow',
+    location: 'Chicago, IL',
+    start: 'Jan 2017',
+    end: 'Jun 2017',
+    summary: 'Intensive full-time program covering computer science fundamentals and applied web development.',
+    highlights: [
+      'Built and presented four projects, including a peer-to-peer code review tool.',
+      'Stayed on as a part-time mentor for the following two cohorts.',
+    ],
+    tech: ['JavaScript', 'Ruby on Rails', 'SQL'],
   },
 ]
 
 /* -------------------------------------------------------------------------- */
-/*  Projects — put your best 2–4 here                                          */
+/*  Projects — your best 2–4                                                   */
 /* -------------------------------------------------------------------------- */
 
 export const projects: Project[] = [
   {
-    name: 'Project One',
+    name: 'Backpressure',
     description:
-      'What it does and who it is for, in a sentence or two. Say the interesting part: the scale, the tricky constraint, or what makes it different.',
-    highlights: ['A notable technical decision or a metric worth calling out.'],
-    tech: ['React', 'TypeScript', 'Supabase'],
+      'An open-source toolkit for testing how backend services behave when a dependency becomes slow instead of failing outright. Most resilience testing punishes hard failures; the failures that actually take systems down are the slow, partial ones.',
+    highlights: [
+      'Adopted by several teams testing payment and notification pipelines in staging.',
+      'Ships as a lightweight middleware with adapters for Express, Fastify, and plain Node servers.',
+    ],
+    tech: ['TypeScript', 'Node.js', 'Vitest'],
+    repoUrl: 'https://github.com/your-username/backpressure',
     liveUrl: 'https://example.com',
-    repoUrl: 'https://github.com/your-username/project-one',
     featured: true,
   },
   {
-    name: 'Project Two',
+    name: 'Ledger Explainer',
     description:
-      'Another thing you built. Side projects, open-source contributions, and work projects all count.',
-    tech: ['Node.js', 'PostgreSQL', 'Redis'],
-    repoUrl: 'https://github.com/your-username/project-two',
+      'A small tool that takes any double-entry transaction log and renders it as an interactive narrative, so a support engineer can answer "where did this money actually go?" without pulling in an accountant.',
+    highlights: [
+      'Handles multi-currency settlements and partial reversals.',
+      'Reduced one team\'s time-to-diagnosis on balance disputes from hours to minutes.',
+    ],
+    tech: ['React', 'TypeScript', 'D3', 'PostgreSQL'],
+    liveUrl: 'https://example.com',
+    repoUrl: 'https://github.com/your-username/ledger-explainer',
   },
   {
-    name: 'Project Three',
+    name: 'Static Site Starter',
     description:
-      'If you are light on projects, use this space for a talk you gave, an article you wrote, or a meaningful contribution.',
-    tech: ['Python', 'FastAPI'],
+      'A deliberately opinionated starter template for documentation sites and personal blogs, tuned for fast loads and no layout shift. Born out of rebuilding a corporate docs site that had somehow reached four megabytes of JavaScript.',
+    tech: ['Astro', 'Tailwind CSS', 'TypeScript'],
+    repoUrl: 'https://github.com/your-username/site-starter',
+  },
+  {
+    name: 'uint16.dev',
+    description:
+      'A technical blog about debugging, performance work, and the unglamorous parts of maintaining software. The most-read post is still the one about the cache key collision.',
+    tech: ['Astro', 'MDX'],
     liveUrl: 'https://example.com',
   },
 ]
@@ -209,19 +246,43 @@ export const projects: Project[] = [
 export const skills: SkillGroup[] = [
   {
     category: 'Languages',
-    items: ['TypeScript', 'JavaScript', 'Python', 'SQL'],
-  },
-  {
-    category: 'Frontend',
-    items: ['React', 'Next.js', 'Tailwind CSS', 'HTML/CSS'],
+    items: ['TypeScript', 'Go', 'Python', 'SQL', 'JavaScript'],
   },
   {
     category: 'Backend & Data',
-    items: ['Node.js', 'PostgreSQL', 'REST APIs', 'GraphQL'],
+    items: [
+      'Node.js',
+      'PostgreSQL',
+      'Kafka',
+      'Redis',
+      'REST APIs',
+      'Event sourcing',
+    ],
   },
   {
-    category: 'Tooling & Ops',
-    items: ['Git', 'Docker', 'CI/CD', 'AWS'],
+    category: 'Frontend',
+    items: ['React', 'Tailwind CSS', 'Vite', 'Accessibility', 'D3'],
+  },
+  {
+    category: 'Infrastructure',
+    items: [
+      'AWS',
+      'Kubernetes',
+      'Docker',
+      'Terraform',
+      'GitHub Actions',
+      'Observability',
+    ],
+  },
+  {
+    category: 'Practices',
+    items: [
+      'System design',
+      'Code review',
+      'Mentoring',
+      'Incident response',
+      'Technical writing',
+    ],
   },
 ]
 
@@ -231,21 +292,51 @@ export const skills: SkillGroup[] = [
 
 export const education: Education[] = [
   {
-    school: 'University Name',
+    school: 'University of Illinois at Chicago',
     credential: 'B.S. in Computer Science',
-    start: '2014',
-    end: '2018',
+    start: '2013',
+    end: '2017',
     details: [
-      'Optional: relevant coursework, honors, GPA, or a notable activity.',
+      'Minor in Mathematics. Coursework in distributed systems, databases, and compilers.',
+      'Teaching assistant for the introductory data structures course for three semesters.',
     ],
   },
 ]
 
 export const certifications: Certification[] = [
-  // Delete this array's contents if you don't have any yet.
   {
-    name: 'Certification Name',
-    issuer: 'Issuing Organization',
+    name: 'AWS Certified Solutions Architect – Associate',
+    issuer: 'Amazon Web Services',
     year: '2024',
+  },
+  {
+    name: 'Certified Kubernetes Application Developer',
+    issuer: 'Cloud Native Computing Foundation',
+    year: '2023',
+  },
+]
+
+/* -------------------------------------------------------------------------- */
+/*  Testimonials                                                               */
+/* -------------------------------------------------------------------------- */
+
+export const testimonials: Testimonial[] = [
+  {
+    quote:
+      'Ryan has a rare instinct for finding the one design decision that everything else hinges on. He rewrote our ledger approach and quietly made two years of accumulated workarounds unnecessary.',
+    name: 'Dana Whitfield',
+    title: 'Engineering Manager, Northwind Labs',
+  },
+  {
+    quote:
+      'He is the person I go to when something is wrong and nobody can explain why. Ryan reads a stack trace the way other people read a map.',
+    name: 'Marcus Iyer',
+    title: 'Staff Engineer, Meridian Analytics',
+  },
+  {
+    quote:
+      'The most patient mentor I have had. He never just handed me the answer, but he also never let me flounder for longer than I needed to.',
+    name: 'Priya Raman',
+    title: 'Software Engineer, Northwind Labs',
   },
 ]
