@@ -42,6 +42,11 @@ MODEL = "birefnet-portrait"
 # opaque. Values between are kept, because hair genuinely needs soft coverage.
 ALPHA_FLOOR = 0.06
 ALPHA_CEIL = 0.98
+# Breathing room around the subject, as a fraction of its longest side. The
+# source photo is cropped so tightly that the hair meets the image edge, which
+# leaves a circular mask no choice but to cut into it. Padding gives the fade
+# somewhere to happen that isn't the subject's face.
+PAD = 0.30
 
 
 def upscale(source: Image.Image) -> Image.Image:
@@ -135,9 +140,11 @@ def main() -> int:
     cut = cut.crop(bbox)
     print(f"  cropped to subject {cut.size[0]}x{cut.size[1]}")
 
-    # Square canvas, subject anchored to the bottom edge so the shoulder cut
-    # lands exactly on the section divider in the hero layout.
-    side = max(cut.size)
+    # Square canvas with breathing room around the subject, anchored to the
+    # bottom edge so the shoulder cut lands on the section divider. The empty
+    # margin is what the circular fade dissolves into, so the mask never chews
+    # into the hair or the face.
+    side = int(max(cut.size) * (1 + PAD))
     canvas = Image.new("RGBA", (side, side), (0, 0, 0, 0))
     canvas.paste(cut, ((side - cut.width) // 2, side - cut.height), cut)
 

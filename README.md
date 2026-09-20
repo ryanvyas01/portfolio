@@ -78,13 +78,18 @@ The look is deliberately near-monochrome, and a few decisions carry it:
 To re-theme the highlight colour, edit the `--color-accent-*` ramp in
 [`src/index.css`](src/index.css); every use updates at once.
 
-The hero portrait uses a scroll-linked parallax — it scales up slightly and
-drifts downward so it lags behind the page, which is what reads as depth. See
-[`src/hooks/useParallax.ts`](src/hooks/useParallax.ts); its defaults were
-measured off the reference site. The motion is interpolated toward the scroll
-position rather than snapped to it, and the animation loop parks itself once the
-element settles so an idle page costs nothing. It is skipped entirely under
-`prefers-reduced-motion`.
+The hero portrait responds to the pointer: on hover it eases upward, scales
+slightly, and leans a few pixels toward the cursor. See
+[`src/hooks/useHoverMotion.ts`](src/hooks/useHoverMotion.ts). The motion is
+interpolated toward its target rather than snapped, and the animation loop parks
+itself once everything settles so an idle page costs nothing. It is skipped
+entirely under `prefers-reduced-motion` and on devices without a real pointer.
+
+Its edges are dissolved into the page by a radial mask rather than cut off as a
+rectangle — see the `.portrait-fade` utility in [`src/index.css`](src/index.css).
+The portrait assets are cut-outs with generous empty margin, which is what the
+fade dissolves into; regenerating without that padding will make the mask clip
+the subject.
 
 Dark mode is the default. Light mode is used only after an explicit toggle, and
 that choice is remembered on future visits.
@@ -98,7 +103,7 @@ src/
   hooks/
     useTheme.ts         Light/dark mode (remembers the choice)
     useActiveSection.ts Highlights the nav link for the section in view
-    useParallax.ts      Scroll-linked drift/scale used by the hero portrait
+    useHoverMotion.ts   Pointer-driven lift/scale used by the hero portrait
   App.tsx               Composes the navbar, sections, and footer
   index.css             Tailwind import, design tokens, and base styles
 ```

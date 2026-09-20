@@ -8,7 +8,12 @@ export function Hero() {
     // `overflow-hidden` clips the portrait as it drifts down, so the subject
     // appears to sink behind the section edge rather than spilling over it.
     <section id="top" className="relative overflow-hidden">
-      <div className="mx-auto flex min-h-[calc(100svh-4rem)] max-w-5xl flex-col px-6 pt-32 sm:pt-40 lg:min-h-[min(calc(100svh-4rem),860px)] lg:flex-row lg:items-end lg:justify-between lg:gap-12 lg:pt-32">
+      <div className="mx-auto flex min-h-[calc(100svh-4rem)] max-w-5xl flex-col px-6 pt-32 sm:pt-40 lg:min-h-[min(calc(100svh-4rem),860px)] lg:flex-row-reverse lg:items-end lg:justify-between lg:gap-12 lg:pt-32">
+        {/*
+         * `flex-row-reverse` puts the portrait on the left and the copy on the
+         * right while keeping the heading first in the DOM, so it is still the
+         * first thing a screen reader reaches.
+         */}
         {/*
          * Two columns on desktop rather than a vertical stack: stacking put the
          * portrait below the fold on shorter screens and left a large void
@@ -69,8 +74,12 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Anchored to the bottom edge so the shoulder cut meets the section divider. */}
-        <div className="mt-14 flex justify-center lg:mt-0 lg:shrink-0">
+        {/*
+         * Anchored near the bottom but lifted clear of the section divider, so
+         * the faded edges have room to breathe instead of being cut off by the
+         * boundary.
+         */}
+        <div className="mt-14 flex justify-center lg:mt-0 lg:mb-24 lg:shrink-0">
           <Portrait />
         </div>
       </div>
