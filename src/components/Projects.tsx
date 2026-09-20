@@ -76,7 +76,7 @@ export function Projects() {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent-600 transition-colors hover:text-accent-500 dark:text-accent-400 dark:hover:text-accent-300"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent-600 transition-colors hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-300"
                   >
                     <ExternalLink className="h-4 w-4" aria-hidden="true" />
                     Live site
@@ -87,7 +87,7 @@ export function Projects() {
                     href={project.repoUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent-600 transition-colors hover:text-accent-500 dark:text-accent-400 dark:hover:text-accent-300"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent-600 transition-colors hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-300"
                   >
                     <BrandIcon name="github" className="h-4 w-4" />
                     Source

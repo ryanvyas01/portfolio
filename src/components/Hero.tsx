@@ -33,7 +33,7 @@ export function Hero() {
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
+                className="inline-flex items-center gap-2 rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
               >
                 Get in touch
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
