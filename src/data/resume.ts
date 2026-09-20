@@ -77,15 +77,22 @@ export const profile = {
     'Proactive engineer with a strong focus on business needs — I refactor legacy codebases, ship new products, and deliver long-term fixes for mission-critical problems.',
   location: 'Dallas–Fort Worth, TX',
   email: 'ryanvyasrv@gmail.com',
-  // NOTE: your LinkedIn says "Open to work · Recruiters only". A public banner
-  // is more visible than that setting implies — soften or remove if you prefer.
-  availability: 'Open to new opportunities',
+  /**
+   * Drop a square photo into the `public/` folder as `portrait.jpg` so it
+   * appears in the hero. Until then, a monogram of your initials is shown.
+   */
+  photoUrl: '/portrait.jpg',
   /** Drop your PDF in `public/` as resume.pdf and it will be linked here. */
   resumeUrl: '/resume.pdf',
 }
 
 /** Shown in the hero and in the Contact section. */
 export const socials: SocialLink[] = [
+  {
+    label: 'GitHub',
+    href: 'https://github.com/ryanvyas01',
+    icon: 'github',
+  },
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/ryan-vyas-uint16/',

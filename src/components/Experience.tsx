@@ -14,7 +14,7 @@ export function Experience() {
           <li key={`${job.company}-${job.role}-${job.start}`} className="relative">
             <span
               aria-hidden="true"
-              className="absolute top-1.5 -left-[2.375rem] h-3 w-3 rounded-full border-2 border-white bg-indigo-600 dark:border-slate-950 dark:bg-indigo-400"
+              className="absolute top-1.5 -left-[2.375rem] h-3 w-3 rounded-full border-2 border-white bg-accent-600 dark:border-slate-950 dark:bg-accent-400"
             />
 
             <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
@@ -26,7 +26,7 @@ export function Experience() {
               </p>
             </div>
 
-            <p className="mt-1 text-base font-medium text-indigo-600 dark:text-indigo-400">
+            <p className="mt-1 text-base font-medium text-accent-600 dark:text-accent-400">
               {job.company}
               {job.location ? (
                 <span className="font-normal text-slate-500 dark:text-slate-500">

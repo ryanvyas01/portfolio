@@ -15,7 +15,7 @@ export function Projects() {
         {projects.map((project) => (
           <article
             key={project.name}
-            className={`group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 transition-colors hover:border-indigo-300 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-indigo-500/50 ${
+            className={`group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 transition-colors hover:border-accent-300 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-accent-500/50 ${
               project.featured ? 'md:col-span-2' : ''
             }`}
           >
@@ -31,7 +31,7 @@ export function Projects() {
                 ) : null}
               </div>
               {project.featured ? (
-                <span className="shrink-0 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300">
+                <span className="shrink-0 rounded-full bg-accent-50 px-3 py-1 text-xs font-semibold text-accent-700 dark:bg-accent-500/10 dark:text-accent-300">
                   Featured
                 </span>
               ) : null}
@@ -76,7 +76,7 @@ export function Projects() {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent-600 transition-colors hover:text-accent-500 dark:text-accent-400 dark:hover:text-accent-300"
                   >
                     <ExternalLink className="h-4 w-4" aria-hidden="true" />
                     Live site
@@ -87,7 +87,7 @@ export function Projects() {
                     href={project.repoUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent-600 transition-colors hover:text-accent-500 dark:text-accent-400 dark:hover:text-accent-300"
                   >
                     <BrandIcon name="github" className="h-4 w-4" />
                     Source

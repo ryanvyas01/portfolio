@@ -17,7 +17,7 @@ export function Section({ id, title, eyebrow, description, children }: SectionPr
       <div className="mx-auto max-w-5xl px-6">
         <header className="mb-12">
           {eyebrow ? (
-            <p className="mb-3 text-sm font-semibold tracking-widest text-indigo-600 uppercase dark:text-indigo-400">
+            <p className="mb-3 text-sm font-semibold tracking-widest text-accent-600 uppercase dark:text-accent-400">
               {eyebrow}
             </p>
           ) : null}
@@ -26,7 +26,7 @@ export function Section({ id, title, eyebrow, description, children }: SectionPr
           </h2>
           <div
             aria-hidden="true"
-            className="mt-4 h-1 w-12 rounded-full bg-indigo-600 dark:bg-indigo-400"
+            className="mt-4 h-1 w-12 rounded-full bg-accent-600 dark:bg-accent-400"
           />
           {description ? (
             <p className="mt-6 max-w-2xl text-lg text-slate-600 dark:text-slate-400">

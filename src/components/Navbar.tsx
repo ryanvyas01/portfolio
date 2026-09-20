@@ -40,7 +40,7 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
         <a
           href="#top"
           onClick={closeMenu}
-          className="rounded text-base font-semibold tracking-tight text-slate-900 transition-colors hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400"
+          className="rounded text-base font-semibold tracking-tight text-slate-900 transition-colors hover:text-accent-600 dark:text-white dark:hover:text-accent-400"
         >
           {profile.name}
         </a>
@@ -55,7 +55,7 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
                   aria-current={isActive ? 'true' : undefined}
                   className={`rounded-full px-3 py-2 text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300'
+                      ? 'bg-accent-50 text-accent-700 dark:bg-accent-500/10 dark:text-accent-300'
                       : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white'
                   }`}
                 >
@@ -110,7 +110,7 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
                     aria-current={isActive ? 'true' : undefined}
                     className={`block rounded-lg px-3 py-2 text-base font-medium transition-colors ${
                       isActive
-                        ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300'
+                        ? 'bg-accent-50 text-accent-700 dark:bg-accent-500/10 dark:text-accent-300'
                         : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white'
                     }`}
                   >

@@ -13,13 +13,13 @@ export function Education() {
               className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/40"
             >
               <GraduationCap
-                className="h-6 w-6 text-indigo-600 dark:text-indigo-400"
+                className="h-6 w-6 text-accent-600 dark:text-accent-400"
                 aria-hidden="true"
               />
               <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
                 {entry.credential}
               </h3>
-              <p className="mt-1 font-medium text-indigo-600 dark:text-indigo-400">
+              <p className="mt-1 font-medium text-accent-600 dark:text-accent-400">
                 {entry.school}
                 {entry.field ? (
                   <span className="font-normal text-slate-500 dark:text-slate-500">
@@ -69,7 +69,7 @@ export function Education() {
                         href={cert.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                        className="transition-colors hover:text-accent-600 dark:hover:text-accent-400"
                       >
                         {cert.name}
                       </a>

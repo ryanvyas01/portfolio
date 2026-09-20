@@ -14,10 +14,10 @@ export function Contact() {
       <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-8 sm:p-10 dark:border-slate-800 dark:bg-slate-900/40">
         <a
           href={`mailto:${profile.email}`}
-          className="group inline-flex items-center gap-3 text-xl font-semibold text-slate-900 transition-colors hover:text-indigo-600 sm:text-2xl dark:text-white dark:hover:text-indigo-400"
+          className="group inline-flex items-center gap-3 text-xl font-semibold text-slate-900 transition-colors hover:text-accent-600 sm:text-2xl dark:text-white dark:hover:text-accent-400"
         >
           <Mail
-            className="h-6 w-6 shrink-0 text-indigo-600 dark:text-indigo-400"
+            className="h-6 w-6 shrink-0 text-accent-600 dark:text-accent-400"
             aria-hidden="true"
           />
           {profile.email}
