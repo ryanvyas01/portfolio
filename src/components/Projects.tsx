@@ -1,15 +1,18 @@
 import { ExternalLink } from 'lucide-react'
-import { projects } from '../data/resume'
 import { BrandIcon } from './BrandIcon'
+import { usePortfolio } from './portfolioContext'
 import { Section } from './Section'
 
 export function Projects() {
+  const { content } = usePortfolio()
+  const { projects, sections } = content
+
   return (
     <Section
       id="projects"
-      eyebrow="Projects"
-      title="Things I've built"
-      description="A selection of work that shows how I think about problems and ship solutions."
+      eyebrow={sections.projects.eyebrow}
+      title={sections.projects.title}
+      description={sections.projects.description}
     >
       <div className="grid gap-4 md:grid-cols-2">
         {projects.map((project) => (

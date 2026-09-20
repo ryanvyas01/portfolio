@@ -1,15 +1,18 @@
 import { Mail, MapPin } from 'lucide-react'
-import { profile, socials } from '../data/resume'
 import { BrandIcon } from './BrandIcon'
+import { usePortfolio } from './portfolioContext'
 import { Section } from './Section'
 
 export function Contact() {
+  const { content } = usePortfolio()
+  const { profile, sections, socials } = content
+
   return (
     <Section
       id="contact"
-      eyebrow="Contact"
-      title="Let's work together"
-      description="I'm always happy to talk about new roles, projects, or interesting problems."
+      eyebrow={sections.contact.eyebrow}
+      title={sections.contact.title}
+      description={sections.contact.description}
     >
       <div className="surface rounded-lg p-8 sm:p-10">
         <a

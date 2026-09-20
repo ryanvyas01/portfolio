@@ -1,7 +1,10 @@
 import { ArrowUp } from 'lucide-react'
-import { profile } from '../data/resume'
+import { usePortfolio } from './portfolioContext'
 
 export function Footer() {
+  const { content } = usePortfolio()
+  const { profile } = content
+
   return (
     <footer className="border-t border-neutral-200/80 dark:border-white/[0.07]">
       <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-4 px-6 py-10 sm:flex-row sm:items-center">

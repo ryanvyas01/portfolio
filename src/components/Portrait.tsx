@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { profile } from '../data/resume'
 import { useHoverMotion } from '../hooks/useHoverMotion'
+import { usePortfolio } from './portfolioContext'
 
 /** "Ryan Vyas" -> "RV" */
 function initialsOf(name: string) {
@@ -29,6 +29,8 @@ function initialsOf(name: string) {
  * broken image.
  */
 export function Portrait() {
+  const { content } = usePortfolio()
+  const { profile } = content
   const [hasFailed, setHasFailed] = useState(false)
   const motionRef = useHoverMotion<HTMLDivElement>()
   const showImage = Boolean(profile.photoUrl) && !hasFailed

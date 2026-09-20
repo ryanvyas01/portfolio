@@ -1,9 +1,12 @@
-import { about } from '../data/resume'
+import { usePortfolio } from './portfolioContext'
 import { Section } from './Section'
 
 export function About() {
+  const { content } = usePortfolio()
+  const { about, sections } = content
+
   return (
-    <Section id="about" eyebrow="About" title="A little about me">
+    <Section id="about" eyebrow={sections.about.eyebrow} title={sections.about.title}>
       <div className="grid gap-12 md:grid-cols-[1.6fr_1fr]">
         <div className="space-y-6 text-lg text-pretty text-neutral-600 dark:text-neutral-400">
           {about.paragraphs.map((paragraph) => (

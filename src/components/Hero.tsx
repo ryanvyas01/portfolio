@@ -1,9 +1,12 @@
 import { ArrowRight, Download, MapPin } from 'lucide-react'
-import { profile, socials } from '../data/resume'
 import { BrandIcon } from './BrandIcon'
 import { Portrait } from './Portrait'
+import { usePortfolio } from './portfolioContext'
 
 export function Hero() {
+  const { content } = usePortfolio()
+  const { profile, socials } = content
+
   return (
     // `overflow-hidden` keeps the portrait's feathered edges from bleeding past
     // the section boundary, and clips the slight lift on hover.

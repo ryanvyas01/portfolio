@@ -1,13 +1,16 @@
-import { experience } from '../data/resume'
+import { usePortfolio } from './portfolioContext'
 import { Section } from './Section'
 
 export function Experience() {
+  const { content } = usePortfolio()
+  const { experience, sections } = content
+
   return (
     <Section
       id="experience"
-      eyebrow="Experience"
-      title="Where I've worked"
-      description="The roles that shaped how I build software, most recent first."
+      eyebrow={sections.experience.eyebrow}
+      title={sections.experience.title}
+      description={sections.experience.description}
     >
       <ol className="border-l border-neutral-200 dark:border-white/[0.09]">
         {experience.map((job) => (

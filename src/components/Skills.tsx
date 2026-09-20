@@ -1,13 +1,16 @@
-import { skills } from '../data/resume'
+import { usePortfolio } from './portfolioContext'
 import { Section } from './Section'
 
 export function Skills() {
+  const { content } = usePortfolio()
+  const { skills, sections } = content
+
   return (
     <Section
       id="skills"
-      eyebrow="Skills"
-      title="What I work with"
-      description="Tools and technologies I reach for most often."
+      eyebrow={sections.skills.eyebrow}
+      title={sections.skills.title}
+      description={sections.skills.description}
     >
       <div className="grid gap-px overflow-hidden rounded-lg border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-3 dark:border-white/[0.09] dark:bg-white/[0.09]">
         {skills.map((group) => (

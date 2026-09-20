@@ -11,6 +11,10 @@ type SectionProps = {
 /**
  * Shared wrapper giving every section the same vertical rhythm, a hairline
  * separator, and a consistent heading treatment.
+ *
+ * No scramble handling here: `useTextScramble` in ModeTransition animates every
+ * visible string in the subtree at once, so headings are covered without
+ * anything section-specific.
  */
 export function Section({ id, title, eyebrow, description, children }: SectionProps) {
   return (

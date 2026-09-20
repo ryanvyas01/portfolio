@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
-import { Menu, Moon, Sun, X } from 'lucide-react'
-import { navItems, profile } from '../data/resume'
+import { useEffect, useMemo, useState } from 'react'
+import { Menu, Moon, Sun, Volume2, VolumeX, X } from 'lucide-react'
 import { useActiveSection } from '../hooks/useActiveSection'
 import type { Theme } from '../hooks/useTheme'
-
-const sectionIds = navItems.map((item) => item.id)
+import { JobModeToggle } from './JobModeToggle'
+import { usePortfolio } from './portfolioContext'
 
 type NavbarProps = {
   theme: Theme
@@ -12,8 +11,16 @@ type NavbarProps = {
 }
 
 export function Navbar({ theme, onToggleTheme }: NavbarProps) {
+  const { content, navItems, soundEnabled, toggleSound } = usePortfolio()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+
+  /*
+   * Memoised so the array identity is stable for a given job. `useActiveSection`
+   * re-subscribes whenever its `ids` reference changes, and a fresh array every
+   * render would tear down and rebuild the listener on each pass.
+   */
+  const sectionIds = useMemo(() => navItems.map((item) => item.id), [navItems])
   const activeId = useActiveSection(sectionIds)
 
   useEffect(() => {
@@ -24,6 +31,8 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
   }, [])
 
   const closeMenu = () => setIsMenuOpen(false)
+
+  const brand = useMemo(() => content.profile.name, [content])
 
   return (
     <header
@@ -37,15 +46,20 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
         aria-label="Main"
         className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-6"
       >
-        <a
-          href="#top"
-          onClick={closeMenu}
-          className="text-sm font-medium tracking-tight text-neutral-900 transition-opacity hover:opacity-70 dark:text-white"
-        >
-          {profile.name}
-          {/* The one deliberate flash of colour on the page. */}
-          <span className="text-accent-500">.</span>
-        </a>
+        <div className="flex items-center gap-1.5">
+          {/* Switching jobs closes the mobile menu, which would otherwise be
+              left open showing the previous job's labels. */}
+          <JobModeToggle onSwitch={closeMenu} />
+          <a
+            href="#top"
+            onClick={closeMenu}
+            className="text-sm font-medium tracking-tight text-neutral-900 transition-opacity hover:opacity-70 dark:text-white"
+          >
+            {brand}
+            {/* The one deliberate flash of colour on the page. */}
+            <span className="text-accent-500">.</span>
+          </a>
+        </div>
 
         <ul className="hidden items-center gap-7 md:flex">
           {navItems.map((item) => {
@@ -69,6 +83,21 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
         </ul>
 
         <div className="flex items-center gap-0.5">
+          {/* Shown in both jobs, since both directions have a sound. */}
+          <button
+            type="button"
+            onClick={toggleSound}
+            aria-label={soundEnabled ? 'Mute transition sounds' : 'Unmute transition sounds'}
+            title={soundEnabled ? 'Mute transition sounds' : 'Unmute transition sounds'}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-neutral-500 transition-colors hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-white/[0.06] dark:hover:text-white"
+          >
+            {soundEnabled ? (
+              <Volume2 className="h-[18px] w-[18px]" aria-hidden="true" />
+            ) : (
+              <VolumeX className="h-[18px] w-[18px]" aria-hidden="true" />
+            )}
+          </button>
+
           <button
             type="button"
             onClick={onToggleTheme}

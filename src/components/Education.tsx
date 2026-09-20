@@ -1,9 +1,17 @@
-import { certifications, education } from '../data/resume'
+import { usePortfolio } from './portfolioContext'
 import { Section } from './Section'
 
 export function Education() {
+  const { content } = usePortfolio()
+  const { certifications, education, sections } = content
+
   return (
-    <Section id="education" eyebrow="Education" title="Education & certifications">
+    <Section
+      id="education"
+      eyebrow={sections.education.eyebrow}
+      title={sections.education.title}
+      description={sections.education.description}
+    >
       <div className="grid gap-12 md:grid-cols-2">
         <div className="space-y-6">
           {education.map((entry) => (
