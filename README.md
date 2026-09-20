@@ -38,14 +38,22 @@ Two asset files are referenced:
 1. **Résumé PDF** — `public/resume.pdf` is **not present**, so the "Download
    résumé" button returns a 404. Drop the PDF in to fix it.
 2. **Portrait** — `public/portrait.png` and `public/portrait.webp` are a
-   background-removed cut-out of the photo, shown in the hero. The `.webp` is
-   what browsers actually serve; the `.png` is the fallback. To replace it,
-   remove the background elsewhere and export a transparent square image, then
-   save both files.
+   background-removed cut-out of the photo, shown in the hero. Regenerate them
+   from the original with:
 
-Keep a replacement portrait near its current ~370px. The supplied source was
-only 400×400, so a larger export displayed at the same size will look softer,
-not sharper.
+   ```bash
+   pip install rembg onnxruntime pillow numpy
+   python scripts/make-portrait.py path/to/original.jpg
+   ```
+
+   The script upscales first, mattes with BiRefNet, decontaminates the edge
+   colours so no background halo survives, then downscales — see the docstring
+   for why the order matters. The `.webp` is what browsers actually serve; the
+   `.png` is the fallback, so both are written.
+
+   A source around 400×400 was enough because the script upscales before
+   segmenting, but a higher-resolution original will always give a better
+   result. For reference, the current source renders at 420px wide.
 
 Also worth updating:
 

@@ -50,7 +50,7 @@ export function Portrait() {
       {/* Soft light behind the subject so the cut-out reads against the page. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[70%] w-[130%] max-w-[560px] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_bottom,rgba(0,0,0,0.07),transparent_70%)] dark:bg-[radial-gradient(ellipse_at_bottom,rgba(255,255,255,0.10),transparent_70%)]"
+        className="pointer-events-none absolute bottom-0 left-1/2 h-[75%] w-[150%] max-w-[660px] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_bottom,rgba(0,0,0,0.07),transparent_70%)] dark:bg-[radial-gradient(ellipse_at_bottom,rgba(255,255,255,0.11),transparent_70%)]"
       />
 
       <div ref={parallaxRef} className="relative">
@@ -60,7 +60,7 @@ export function Portrait() {
             src={profile.photoUrl}
             alt={`Portrait of ${profile.name}`}
             onError={() => setHasFailed(true)}
-            className="block w-[240px] max-w-full select-none sm:w-[300px] lg:w-[340px]"
+            className="portrait-shadow block w-[280px] max-w-full select-none sm:w-[340px] lg:w-[420px]"
           />
         </picture>
       </div>

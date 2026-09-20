@@ -8,7 +8,7 @@ export function Hero() {
     // `overflow-hidden` clips the portrait as it drifts down, so the subject
     // appears to sink behind the section edge rather than spilling over it.
     <section id="top" className="relative overflow-hidden">
-      <div className="mx-auto flex min-h-[calc(100svh-4rem)] max-w-5xl flex-col px-6 pt-32 sm:pt-40 lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:pt-36">
+      <div className="mx-auto flex min-h-[calc(100svh-4rem)] max-w-5xl flex-col px-6 pt-32 sm:pt-40 lg:min-h-[min(calc(100svh-4rem),860px)] lg:flex-row lg:items-end lg:justify-between lg:gap-12 lg:pt-32">
         {/*
          * Two columns on desktop rather than a vertical stack: stacking put the
          * portrait below the fold on shorter screens and left a large void

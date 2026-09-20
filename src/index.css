@@ -116,4 +116,20 @@
     background-color: color-mix(in oklab, var(--color-white) 3.5%, transparent);
     border-color: color-mix(in oklab, var(--color-white) 9%, transparent);
   }
+
+  /*
+   * Lifts the cut-out portrait off the page. Two shadows: a wide soft one for
+   * depth, plus a tight one to define the contact edge. Because `drop-shadow`
+   * follows the alpha silhouette rather than the bounding box, it also visually
+   * absorbs any faint fringe left along the cut-out edges.
+   */
+  .portrait-shadow {
+    filter: drop-shadow(0 18px 30px rgb(0 0 0 / 0.14))
+      drop-shadow(0 2px 6px rgb(0 0 0 / 0.08));
+  }
+
+  .dark .portrait-shadow {
+    filter: drop-shadow(0 20px 38px rgb(0 0 0 / 0.6))
+      drop-shadow(0 3px 8px rgb(0 0 0 / 0.45));
+  }
 }
