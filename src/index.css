@@ -1,7 +1,15 @@
 @import 'tailwindcss';
 
-/* Class-based dark mode so the toggle can control it (Tailwind v4 syntax). */
-@custom-variant dark (&:where(.dark, .dark *));
+/*
+ * Attribute-based dark mode so the toggle can control it (Tailwind v4 syntax).
+ *
+ * Keyed on `data-theme` rather than a `dark` class on <html>, because the theme
+ * has to be scopable: during a job switch the ghost must render in the outgoing
+ * palette while the live page renders in the incoming one. An ancestor class
+ * cannot be *removed* by a descendant, so a single root-level class can only
+ * ever express one theme at a time. Two explicit `data-theme` scopes can.
+ */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 @theme {
   --font-sans:
@@ -31,6 +39,13 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /*
+     * The page background lives on <html> rather than <body>, because the theme
+     * scope is a child element now. <html> has to be tinted directly or
+     * overscroll and any area past the app would show the wrong colour — so
+     * useTheme and the pre-paint script set the dark value inline here.
+     */
+    background-color: var(--color-neutral-50);
   }
 
   /*
@@ -38,13 +53,25 @@
    * the previous palette read as "tech default" rather than considered.
    */
   body {
-    background-color: var(--color-neutral-50);
     color: var(--color-neutral-600);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  .dark body {
+  /*
+   * The theme scope. Both the live page and the ghost carry `data-theme`, which
+   * is what lets them hold different palettes at the same time — the whole
+   * reason this is not a class on <html>.
+   *
+   * Painting the surface here rather than on <body> means the two scopes are
+   * coloured independently.
+   */
+  [data-theme] {
+    min-height: 100dvh;
+    background-color: var(--color-neutral-50);
+  }
+
+  [data-theme='dark'] {
     background-color: var(--color-neutral-950);
     color: var(--color-neutral-400);
   }
@@ -61,9 +88,9 @@
     color: var(--color-neutral-900);
   }
 
-  .dark h1,
-  .dark h2,
-  .dark h3 {
+  [data-theme='dark'] h1,
+  [data-theme='dark'] h2,
+  [data-theme='dark'] h3 {
     color: var(--color-neutral-50);
   }
 
@@ -79,7 +106,7 @@
    * adding a `dark:` override to each one. Safe because neutral-500 is only
    * ever used for text in this project, never a background or border.
    */
-  .dark {
+  [data-theme='dark'] {
     --color-neutral-500: var(--color-neutral-400);
   }
 
@@ -102,6 +129,42 @@
   }
 }
 
+/* --------------------------------------------------------------------------
+ *  THEME
+ *
+ *  A job switch always changes the theme, because each portfolio owns a palette
+ *  (dark for software, light for dog). There is deliberately NO palette
+ *  transition.
+ *
+ *  An earlier version eased every colour in the document with a `*` transition
+ *  so the ghost could cross the palette with the live page. Measured, that cost
+ *  ~318ms of style recalculation in a single switch — animating every one of
+ *  the ~776 layout objects across a 7,700px document, doubled by the ghost's
+ *  clone — and was the cause of the transition reading as laggy. The mask
+ *  itself cost ~29ms.
+ *
+ *  It is unnecessary now that the ghost carries its own `data-theme` scope. The
+ *  ghost renders in the OUTGOING palette while the live page renders in the
+ *  incoming one, so the reveal is a crisp dark-to-light wipe and nothing has to
+ *  cross-fade at all. The live page's flip is invisible because the ghost is
+ *  opaque and covering it; the wipe is what reveals the new palette.
+ *
+ *  A View Transition was tried before that and rejected: it cross-fades two
+ *  static snapshots, which would freeze the glyph-noise text scramble into a
+ *  still frame.
+ * ------------------------------------------------------------------------ */
+
+/*
+ * Registered so it can be interpolated. An unregistered custom property is not
+ * animatable; it would jump from 0 to full radius at the halfway point instead
+ * of sweeping.
+ */
+@property --reveal-radius {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
 @layer utilities {
   /*
    * Surfaces are translucent white/black rather than solid card colours, so
@@ -112,7 +175,7 @@
     border: 1px solid color-mix(in oklab, var(--color-neutral-900) 8%, transparent);
   }
 
-  .dark .surface {
+  [data-theme='dark'] .surface {
     background-color: color-mix(in oklab, var(--color-white) 3.5%, transparent);
     border-color: color-mix(in oklab, var(--color-white) 9%, transparent);
   }
@@ -155,9 +218,10 @@
  *
  *  - `.mode-transition` is the live page. Its text resolves out of glyph noise
  *    during `in`, and the layer fades up.
- *  - `.glitch-ghost` is a frozen snapshot of the outgoing page. Its text
- *    dissolves into noise during `out` and the whole layer fades away — which
- *    is what removes, by animating, any element the new structure drops.
+ *  - `.glitch-ghost` is a frozen snapshot of the outgoing page. It sits on top
+ *    and is carried away — by a circular wipe for `reveal`, by a dissolve and
+ *    fade for `glitch` and `crossfade`. Either way it is what removes, by
+ *    animating, any element the new structure drops.
  *
  *  The ghost is fixed and cannot affect layout: the document is already the new
  *  page's height and the ghost just floats over it.
@@ -180,6 +244,29 @@
     opacity: 0;
     transform: translate3d(0, -10px, 0);
     filter: blur(1.5px);
+  }
+}
+
+/*
+ * The reveal: a hole opens out of the toggle and erases the old page, exposing
+ * the new one already sitting underneath.
+ *
+ * `--reveal-radius` drives the mask; `opacity` is the safety net. If the
+ * registered property above is unsupported and cannot interpolate, the wipe
+ * degrades to a plain fade out rather than leaving the ghost stuck on screen
+ * covering the page.
+ */
+@keyframes ghost-reveal {
+  0% {
+    --reveal-radius: 0px;
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    --reveal-radius: var(--reveal-max-radius, 150vmax);
+    opacity: 0;
   }
 }
 
@@ -212,11 +299,45 @@
   pointer-events: none;
   /* Opaque, because the ghost *is* the old page — the new one is behind it. */
   background-color: var(--color-neutral-50);
+}
+
+/*
+ * The ghost carries its OWN theme scope, set from the outgoing job. This is the
+ * point of it: it renders in the palette that was on screen a moment ago while
+ * the live page underneath already renders in the new one, so the wipe reads as
+ * dark-to-light rather than light-to-light.
+ */
+.glitch-ghost[data-theme='dark'] {
+  background-color: var(--color-neutral-950);
+}
+
+.glitch-ghost[data-style='glitch'],
+.glitch-ghost[data-style='crossfade'] {
   animation: ghost-out var(--ghost-duration, 300ms) ease-in both;
 }
 
-.dark .glitch-ghost {
-  background-color: var(--color-neutral-950);
+/*
+ * The mask is a radial gradient whose inner stop is transparent: alpha 0 means
+ * "not painted", so it punches a hole through the ghost rather than covering
+ * it. The 1.5px offset between the stops is what keeps the edge from aliasing
+ * as it sweeps.
+ *
+ * Coordinates are viewport-based because the ghost is `position: fixed`, which
+ * is also what lets the origin be measured from the toggle's client rect.
+ */
+.glitch-ghost[data-style='reveal'] {
+  --reveal-radius: 0px;
+  -webkit-mask-image: radial-gradient(
+    circle at var(--reveal-x, 50%) var(--reveal-y, 50%),
+    transparent var(--reveal-radius),
+    #000 calc(var(--reveal-radius) + 1.5px)
+  );
+  mask-image: radial-gradient(
+    circle at var(--reveal-x, 50%) var(--reveal-y, 50%),
+    transparent var(--reveal-radius),
+    #000 calc(var(--reveal-radius) + 1.5px)
+  );
+  animation: ghost-reveal var(--ghost-duration, 560ms) ease-out both;
 }
 
 .glitch-ghost::after {
@@ -232,7 +353,7 @@
   animation: ghost-scan 320ms linear infinite;
 }
 
-.dark .glitch-ghost::after {
+.glitch-ghost[data-theme='dark']::after {
   background: repeating-linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0.03) 0 1px,
@@ -248,20 +369,33 @@
   overflow: hidden;
 }
 
-.mode-transition[data-phase='in'] {
+/*
+ * The incoming page eases up into place.
+ *
+ * Excluded for the reveal, where the opening hole has already revealed the page
+ * in full. Fading it in again from opacity 0 at that moment would blank it and
+ * split one motion into two — the wipe, then a fade after it. The reveal's
+ * equivalent gesture is the text resolving, which runs during the wipe itself
+ * (see ModeTransition.tsx).
+ */
+.mode-transition[data-phase='in']:not([data-style='reveal']) {
   animation: content-in var(--content-duration, 600ms) ease-out both;
 }
 
 /*
  * A last, very short noise flash as the ghost hands over to the live page. It
  * covers the seam between the two layers, where the swap technically happens.
+ *
+ * Not for the reveal: by the time the ghost comes down the hole is fully open,
+ * so it is removed invisibly and there is no seam to cover. A flash there would
+ * only add a beat after the wipe has finished.
  */
 @keyframes handover-flash {
   0% { opacity: 0.5; }
   100% { opacity: 0; }
 }
 
-.mode-transition[data-phase='in']::before {
+.mode-transition[data-phase='in']:not([data-style='reveal'])::before {
   content: '';
   position: fixed;
   inset: 0;

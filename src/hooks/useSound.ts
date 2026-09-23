@@ -3,9 +3,9 @@ import { useCallback, useEffect, useState } from 'react'
 const STORAGE_KEY = 'portfolio-sound'
 
 /**
- * Whether the dog-wipe bark plays. On by default — it only ever fires from a
- * deliberate click on the job toggle, never on load or on scroll, and the
- * navbar exposes a mute button whenever the dog portfolio is open.
+ * Whether the transition sounds play. On by default — they only ever fire from
+ * a deliberate click on the job toggle, never on load or on scroll, and the
+ * navbar exposes a mute button that gates both directions.
  */
 function getInitialSoundEnabled(): boolean {
   if (typeof window === 'undefined') {

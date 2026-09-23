@@ -129,32 +129,90 @@ separating instead. The portrait assets are cut-outs with generous empty margin,
 which is what the fade dissolves into; regenerating without that padding will
 make the mask clip the subject.
 
-Dark mode is the default. Light mode is used only after an explicit toggle, and
-that choice is remembered on future visits.
+### Theme
+
+The theme is not a preference — each portfolio owns a palette:
+
+| Job      | Theme |
+| -------- | ----- |
+| software | dark  |
+| dog      | light |
+
+There is no theme toggle. A job switch is therefore always a theme switch.
+
+There is no palette fade either. The theme is set as `data-theme` on a scope
+element rather than a class on `<html>`, specifically so that **two palettes can
+exist at once**: during a switch the ghost holds the *outgoing* palette while the
+page underneath already holds the incoming one. The wipe therefore reveals a real
+dark-to-light change instead of two copies of the same scheme.
+
+An earlier version went the other way and eased every colour in the document with
+a `*` transition, so that the ghost could cross the palette together with the
+live page. That was measured at **~318ms of style recalculation** in a single
+switch — animating all ~776 layout objects across a 7,700px document, doubled by
+the ghost's clone — and was what made the switch feel laggy. The mask itself cost
+~29ms. Scoping `data-theme` removed the need for the fade entirely.
+
+Tailwind's dark variant is keyed on `[data-theme='dark']` rather than a `.dark`
+class for the same reason: an ancestor class cannot be *removed* by a descendant,
+so a single root-level class can only ever express one theme at a time.
+
+The page background is painted on `<html>` by the inline script in `index.html` so
+it never flashes the wrong colour before first paint; `useTheme` re-applies the
+exact token value once mounted. That script duplicates the job → theme mapping
+deliberately, since it has to run before the bundle loads, so **changes must be
+made in both `index.html` and `src/hooks/useTheme.ts`.**
 
 ## Transitions and sound
 
 Switching portfolios plays a transition that swaps the content mid-flight. Both
-directions cross-fade by default, and both play a short sound:
+directions play a short sound:
 
 | Direction         | Sound            |
 | ----------------- | ---------------- |
 | software → dog    | a dog bark       |
-| dog → software    | a burst of typing |
+| dog → software    | a sweep of air   |
 
 A mute button in the header controls both, and the preference is remembered.
 
 **How a structural change is hidden.** The outgoing page is snapshotted into an
 inert clone before anything changes, and that clone is the *ghost* — it sits on
-top, its text dissolves into glyph noise, and the whole layer fades away while
-the incoming page mounts underneath. Anything the new page does not have fades
-out with the ghost, so the two portfolios can differ structurally without a hard
-cut. See [`GlitchGhost.tsx`](src/components/GlitchGhost.tsx) and
+top and is carried away while the incoming page mounts underneath. Anything the
+new page does not have leaves with the ghost, so the two portfolios can differ
+structurally without a hard cut. See
+[`GlitchGhost.tsx`](src/components/GlitchGhost.tsx) and
 [`useTextScramble.ts`](src/hooks/useTextScramble.ts).
 
-A `glitch` style (slice displacements plus a full-text scramble) is also
-implemented and selectable from the dev-only panel in the bottom-right corner,
-along with a replay button. That panel does not ship in a production build.
+**Three styles, differing only in how the ghost leaves:**
+
+| Style       | How it leaves                                                  | Where the text churn runs            | Default |
+| ----------- | -------------------------------------------------------------- | ------------------------------------ | ------- |
+| `reveal`    | A circular hole opens out of the portfolio toggle and erases it | the incoming page, during the wipe   | yes     |
+| `glitch`    | Its text dissolves into glyph noise, then the layer fades       | the outgoing page, into the noise    | no      |
+| `crossfade` | The same model without the text churn                           | —                                    | no      |
+
+`reveal` is the default because the theme is locked to the job, so every switch
+is also a palette change — and a wipe from the control that was clicked suits a
+change that size better than a fade.
+
+The churn belongs to the page *arriving* for a reveal, and runs while the ghost is
+still up, so the opening hole progressively reveals it instead of it starting once
+the hole is already open. That is also why `reveal` suppresses the incoming page's
+`content-in` fade and the handover flash: by then the hole has already revealed the
+page, so fading it in again would blank it and split one motion into two. The
+outgoing page is simply wiped away, unchurned.
+
+It is a **mask on the ghost**, not a View Transition: a radial gradient whose
+inner stop is `transparent` punches a growing hole in the layer. The radius is
+animated by a registered custom property (`@property --reveal-radius`), because
+unregistered custom properties cannot be interpolated. The origin is measured
+from the portfolio toggle's client rect at click time — the provider queries
+`[data-job-toggle]` rather than each caller passing coordinates, so the navbar
+toggle and the dev panel's replay button start from the same place.
+
+`glitch` and `crossfade` remain selectable from the dev-only panel in the
+bottom-right corner, along with a replay button. That panel does not ship in a
+production build.
 
 ### Audio licensing
 
@@ -164,13 +222,14 @@ by Joseph Sardin, so no attribution is required — but recorded here anyway:
 | File                  | Source                          |
 | --------------------- | ------------------------------- |
 | `public/bark.mp3`     | "Barking of a Spitz" (#0682)    |
-| `public/keyboard.mp3` | "Computer Keyboard" (#0229)     |
+| `public/sweep.mp3`    | "Whoosh #5" (#1797)             |
 
-Both are trimmed at load time to their busiest fraction of a second, so
-replacing either file is all that is needed to change the sound — see
-[`src/lib/audioSample.ts`](src/lib/audioSample.ts). If `bark.mp3` is missing the
-bark falls back to a synthesiser; the keyboard stays silent rather than faking
-it.
+Each is trimmed at load time to its busiest fraction of a second, so replacing
+either file is all that is needed to change the sound — see
+[`src/lib/audioSample.ts`](src/lib/audioSample.ts). The sweep is shorter than
+the trim window, so it is used whole rather than sliced. If `bark.mp3` is
+missing the bark falls back to a synthesiser; the sweep stays silent rather than
+faking it.
 
 ## Project structure
 
@@ -179,7 +238,7 @@ src/
   data/                 Content packs — see "Two portfolios"
   components/           One component per section, plus shared UI
   hooks/
-    useTheme.ts         Light/dark mode (remembers the choice)
+    useTheme.ts         Locks the palette to the active job and eases the change
     useJobMode.ts       Which portfolio is active (remembers the choice)
     useActiveSection.ts Highlights the nav link for the section in view
     useHoverMotion.ts   Pointer-driven lift/scale used by the hero portrait
@@ -188,7 +247,7 @@ src/
   lib/
     audioSample.ts      Fetch, trim, and play a short audio slice
     bark.ts             The bark sample
-    keyboard.ts         The typing sample
+    sweep.ts            The air sweep sample
   App.tsx               Composes the navbar, transition, sections, and footer
   index.css             Tailwind import, design tokens, and base styles
 ```

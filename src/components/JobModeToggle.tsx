@@ -34,6 +34,12 @@ export function JobModeToggle({ onSwitch }: { onSwitch?: () => void }) {
   return (
     <button
       type="button"
+      /*
+       * Marks where the reveal should grow from. The provider queries this
+       * rather than the navbar passing coordinates, so every caller — including
+       * the dev panel's replay button — starts from the real control.
+       */
+      data-job-toggle=""
       onClick={() => {
         toggleJob()
         onSwitch?.()

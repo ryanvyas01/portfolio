@@ -1,6 +1,12 @@
 import { createContext, useContext } from 'react'
 import type { JobMode, NavItem, PortfolioContent } from '../data'
-import type { TransitionDirection, TransitionPhase, TransitionStyle } from './transition'
+import type { Theme } from '../hooks/useTheme'
+import type {
+  RevealOrigin,
+  TransitionDirection,
+  TransitionPhase,
+  TransitionStyle,
+} from './transition'
 
 /**
  * The context object and its reader live here rather than in the provider
@@ -22,6 +28,16 @@ export type PortfolioContextValue = {
   direction: TransitionDirection
   soundEnabled: boolean
   toggleSound: () => void
+  /**
+   * Where the current transition's reveal is growing from, resolved when the
+   * toggle was clicked. Null while idle.
+   */
+  transitionOrigin: RevealOrigin | null
+  /**
+   * The palette the ghost should render in — the one that was on screen when
+   * the switch began, which is not the theme the live page is showing.
+   */
+  ghostTheme: Theme
   /**
    * A frozen snapshot of the page captured when a transition begins, or null.
    * Owned by the provider so it is taken before the content changes.

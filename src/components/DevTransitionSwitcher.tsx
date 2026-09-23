@@ -6,7 +6,7 @@ import {
   type TransitionStyle,
 } from './transition'
 
-const STYLES: TransitionStyle[] = ['glitch', 'crossfade']
+const STYLES: TransitionStyle[] = ['reveal', 'glitch', 'crossfade']
 
 const LABELS: Record<TransitionDirection, string> = {
   'software->dog': 'code → dog',

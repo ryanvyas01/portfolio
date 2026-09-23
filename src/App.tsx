@@ -4,11 +4,8 @@ import { ModeTransition } from './components/ModeTransition'
 import { Navbar } from './components/Navbar'
 import { PortfolioProvider } from './components/PortfolioProvider'
 import { Sections } from './components/Sections'
-import { useTheme } from './hooks/useTheme'
 
 function App() {
-  const { theme, toggleTheme } = useTheme()
-
   return (
     <PortfolioProvider>
       <div className="min-h-screen" data-app-root="">
@@ -21,9 +18,11 @@ function App() {
 
         {/*
          * The navbar sits outside ModeTransition: it owns menu state, and it
-         * animates its own labels rather than remounting with the page.
+         * animates its own labels rather than remounting with the page. Theme
+         * comes from the provider, since it is per-job and the provider owns
+         * which job is displayed.
          */}
-        <Navbar theme={theme} onToggleTheme={toggleTheme} />
+        <Navbar />
 
         {/*
          * Which sections render comes from the active content pack, so the two

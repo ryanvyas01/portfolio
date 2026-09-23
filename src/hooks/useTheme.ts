@@ -1,42 +1,56 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import type { JobMode } from '../data'
 
 export type Theme = 'light' | 'dark'
 
-const STORAGE_KEY = 'portfolio-theme'
-
 /**
- * Dark is the default. A first-time visitor always gets dark mode; light is
- * only used once someone explicitly toggles to it (which we remember).
+ * The theme each job is locked to.
+ *
+ * There is deliberately no theme toggle. Each portfolio owns a palette: software
+ * is the technical register and runs dark, dog training is the warm one and runs
+ * light. A job switch is therefore also a theme switch, every time.
+ *
+ * Kept in sync with the pre-paint script in index.html.
  */
-function getInitialTheme(): Theme {
-  if (typeof window === 'undefined') {
-    return 'dark'
-  }
+const MODE_THEMES: Record<JobMode, Theme> = {
+  software: 'dark',
+  dog: 'light',
+}
 
-  const stored = window.localStorage.getItem(STORAGE_KEY)
-  return stored === 'light' ? 'light' : 'dark'
+const CHROME_BACKGROUND: Record<Theme, string> = {
+  light: 'var(--color-neutral-50)',
+  dark: 'var(--color-neutral-950)',
 }
 
 /**
- * Manages the light/dark theme by toggling a `dark` class on <html>.
- * The initial value is applied by an inline script in index.html so the
- * page never flashes the wrong theme on load.
- *
- * Must be kept in sync with that inline script.
+ * The theme that belongs to a job. Pure, so it can be read anywhere without
+ * subscribing to anything.
  */
-export function useTheme() {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme)
+export function themeForMode(mode: JobMode): Theme {
+  return MODE_THEMES[mode]
+}
+
+/**
+ * Tints `<html>` for the active job.
+ *
+ * The component palette is *not* applied here. It is set declaratively as
+ * `data-theme` on the theme scope (see PortfolioProvider), because the scope has
+ * to be per-subtree: during a job switch the ghost renders in the outgoing
+ * palette while the live page renders in the incoming one, and a single class on
+ * `<html>` cannot express both.
+ *
+ * All this hook does is paint the element behind everything, so overscroll and
+ * any area past the app match. It is inline rather than a class so it cannot
+ * accidentally satisfy a `[data-theme='dark']` variant and theme the subtree.
+ */
+export function useTheme(mode: JobMode) {
+  const theme = themeForMode(mode)
 
   useEffect(() => {
     const root = document.documentElement
-    root.classList.toggle('dark', theme === 'dark')
+    root.style.backgroundColor = CHROME_BACKGROUND[theme]
     root.style.colorScheme = theme
-    window.localStorage.setItem(STORAGE_KEY, theme)
   }, [theme])
 
-  const toggleTheme = useCallback(() => {
-    setTheme((current) => (current === 'dark' ? 'light' : 'dark'))
-  }, [])
-
-  return { theme, toggleTheme }
+  return theme
 }

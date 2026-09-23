@@ -1,16 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Menu, Moon, Sun, Volume2, VolumeX, X } from 'lucide-react'
+import { Menu, Volume2, VolumeX, X } from 'lucide-react'
 import { useActiveSection } from '../hooks/useActiveSection'
-import type { Theme } from '../hooks/useTheme'
 import { JobModeToggle } from './JobModeToggle'
 import { usePortfolio } from './portfolioContext'
 
-type NavbarProps = {
-  theme: Theme
-  onToggleTheme: () => void
-}
-
-export function Navbar({ theme, onToggleTheme }: NavbarProps) {
+export function Navbar() {
   const { content, navItems, soundEnabled, toggleSound } = usePortfolio()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -95,20 +89,6 @@ export function Navbar({ theme, onToggleTheme }: NavbarProps) {
               <Volume2 className="h-[18px] w-[18px]" aria-hidden="true" />
             ) : (
               <VolumeX className="h-[18px] w-[18px]" aria-hidden="true" />
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={onToggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-neutral-500 transition-colors hover:bg-neutral-200/60 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-white/[0.06] dark:hover:text-white"
-          >
-            {theme === 'dark' ? (
-              <Sun className="h-[18px] w-[18px]" aria-hidden="true" />
-            ) : (
-              <Moon className="h-[18px] w-[18px]" aria-hidden="true" />
             )}
           </button>
 

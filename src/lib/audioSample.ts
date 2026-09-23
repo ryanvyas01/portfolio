@@ -2,9 +2,9 @@
  * Loads a short audio sample and slices the densest window out of it.
  *
  * Both transition sounds need the same three things: fetch a file once, find
- * the busiest moment (a bark's loudest burst, the fastest run of keystrokes),
- * and play that slice. Sharing the machinery keeps the bark and the keyboard
- * from drifting into two slightly different implementations.
+ * the busiest moment (a bark's loudest burst, a sweep's full arc), and play
+ * that slice. Sharing the machinery keeps the bark and the sweep from drifting
+ * into two slightly different implementations.
  */
 
 export type Sample = {

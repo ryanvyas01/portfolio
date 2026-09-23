@@ -26,22 +26,43 @@
     />
 
     <!--
-      Apply the theme before first paint to avoid a flash of the wrong colour
-      scheme. Dark is the default; light is only used if explicitly chosen.
-      This must stay in sync with getInitialTheme() in src/hooks/useTheme.ts.
+      Paint the page background before first paint to avoid a flash of the
+      wrong colour. The theme is not a preference: each portfolio owns a
+      palette, so it follows the remembered job. Dark for software, light for
+      dog.
+
+      Deliberately inline rather than a class: the component palette is set as
+      `data-theme` on a scope element (see PortfolioProvider), and a class here
+      on <html> would satisfy that variant for the whole document — including
+      the ghost, which must be able to hold the other palette.
+
+      The colours are literal copies of neutral-950 and neutral-50 because the
+      stylesheet is not loaded yet, so the custom properties do not exist. The
+      approximation is short-lived and self-correcting: useTheme re-applies the
+      exact value from the tokens as soon as it mounts.
     -->
     <script>
       ;(function () {
-        var theme = 'dark'
+        var DARK = '#0a0a0a'
+        var LIGHT = '#fafafa'
+        var dark = true
         try {
-          if (localStorage.getItem('portfolio-theme') === 'light') {
-            theme = 'light'
-          }
+          dark = localStorage.getItem('portfolio-job-mode') !== 'dog'
+
+          /*
+           * Retire the per-mode theme keys from an earlier iteration, where the
+           * theme was a preference rather than a property of the job. Left
+           * behind they are dead weight that would silently reappear if that
+           * idea ever came back.
+           */
+          localStorage.removeItem('portfolio-theme')
+          localStorage.removeItem('portfolio-theme-software')
+          localStorage.removeItem('portfolio-theme-dog')
         } catch (error) {
           /* localStorage can be unavailable in private mode — default to dark. */
         }
-        document.documentElement.classList.toggle('dark', theme === 'dark')
-        document.documentElement.style.colorScheme = theme
+        document.documentElement.style.backgroundColor = dark ? DARK : LIGHT
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
       })()
     </script>
   </head>
