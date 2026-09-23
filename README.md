@@ -45,17 +45,26 @@ src/data/
 
 Each pack supplies every piece of text **and** the per-section headings, so the
 two jobs can word the same sections differently while sharing one component
-tree. A pack also lists `enabledSections`, which is how the trainer page omits
-sections that do not apply to it — the nav and the page both read from that one
-field, so they cannot drift apart.
+tree. A pack also lists `enabledSections`, which defines **both membership and
+page order** — the nav is a projection of that one field, so the two cannot
+disagree about either what a page shows or what order it shows it in.
 
 `scripts/make-portrait.py` and the styling below are shared; only the copy and
 the section list change.
 
-> **The dog training pack is scaffolded, not written.** Every value is a marked
-> placeholder. Find them with `rg "TODO:" src/data/dogTraining.ts`; each states
-> what belongs there. Nothing in it is a real claim about experience,
-> credentials, or pricing.
+The two portfolios tell different stories in different sequences, which is why
+the order is per-pack rather than global:
+
+| | software | dog training |
+| --- | --- | --- |
+| Sections | about, experience, education, skills, projects, contact | about, how it works, specialties, programs, contact |
+
+> **The dog training pack is written and real, with one exception.** Everything
+> except **Programs** came from Ryan directly — no experience, credentials, or
+> clients were invented, and there is deliberately no certification because he
+> does not hold one. Programs is still scaffolding: find the remaining
+> placeholders with `rg "TODO:" src/data/dogTraining.ts`. Testimonials have a
+> section but no quotes yet, so the section is built and left disabled.
 
 Adding a third job means one new pack plus a member on the `JobMode` type.
 
@@ -85,6 +94,11 @@ Two asset files are referenced:
    A source around 400×400 was enough because the script upscales before
    segmenting, but a higher-resolution original will always give a better
    result. For reference, the current source renders at 420px wide.
+
+One more thing the site needs before it can be called finished: **the contact
+destinations**. Both are optional and both are unset, so the contact sections work
+but are not yet wired to an inbox or a calendar. See [Contact](#contact) for what
+each falls back to and what to add.
 
 Also worth updating:
 
@@ -231,14 +245,50 @@ the trim window, so it is used whole rather than sliced. If `bark.mp3` is
 missing the bark falls back to a synthesiser; the sweep stays silent rather than
 faking it.
 
+## Contact
+
+Each portfolio decides how a visitor gets in touch, declared by `contactChannel`
+in its pack — see `ContactChannel` in [`src/data/types.ts`](src/data/types.ts):
+
+| Job      | Channel          | Wants                        |
+| -------- | ---------------- | ---------------------------- |
+| software | a message form   | `endpoint` — a Formspree URL |
+| dog      | Calendly, inline | `url` — a scheduling link    |
+
+The channel is a discriminated union rather than a pair of optional fields, so a
+pack cannot declare both at once or neither.
+
+**Both destinations are optional, and neither is set yet.** The frontend is
+complete without them, and each channel degrades rather than pretending to work:
+
+- **The form** still validates and composes, then hands off to the visitor's mail
+  client and says so on the confirmation screen. Adding `endpoint` turns it into a
+  real `POST` and nothing else changes. It also carries a hidden `_gotcha` field as
+  a honeypot, tripped silently — Formspree filters on that same field server-side.
+- **Calendly** has nothing to frame with no `url`, so the section shows the email
+  link on its own. In development a dashed placeholder marks where the calendar
+  will land, so the layout can still be judged; it sits behind
+  `import.meta.env.DEV` and is not in a production build.
+
+The calendar is a plain `iframe` rather than Calendly's embed script: no
+third-party JavaScript on page load, no dependency, and `loading="lazy"` keeps it
+off the critical path until the visitor scrolls to the section. The cost is a fixed
+height, because Calendly's script measures its own content and a cross-origin frame
+cannot.
+
 ## Project structure
 
 ```
 src/
   data/                 Content packs — see "Two portfolios"
   components/           One component per section, plus shared UI
+    Process.tsx         The numbered "how it works" steps
+    Testimonials.tsx    Client quotes; renders nothing when there are none
+    Contact.tsx         Per-job contact channel plus the direct routes
+    ContactForm.tsx     Message form: validation, states, and a honeypot
+    CalendlyEmbed.tsx   Inline booking calendar
   hooks/
-    useTheme.ts         Locks the palette to the active job and eases the change
+    useTheme.ts         Locks the palette to the active job
     useJobMode.ts       Which portfolio is active (remembers the choice)
     useActiveSection.ts Highlights the nav link for the section in view
     useHoverMotion.ts   Pointer-driven lift/scale used by the hero portrait

@@ -35,8 +35,28 @@ export const software: PortfolioContent = {
     { label: 'Email', href: 'mailto:ryanvyasrv@gmail.com', icon: 'mail' },
   ],
 
+  /**
+   * A message rather than a booking: this is the portfolio that takes enquiries
+   * and there is nothing to schedule.
+   *
+   * `endpoint` is deliberately unset for now — see ContactChannel in types.ts.
+   * Dropping a Formspree URL in here is the entire switch; nothing else changes.
+   */
+  contactChannel: { kind: 'form' },
+
+  /*
+   * Headings are exhaustive across every section id, not just the six this job
+   * shows. `process` and `testimonials` are worded here even though the software
+   * page does not render them, so that every pack is a complete description of
+   * the site and adding a section is a one-pack change rather than two.
+   */
   sections: {
     about: { eyebrow: 'About', title: 'A little about me' },
+    process: {
+      eyebrow: 'Process',
+      title: 'How I work',
+      description: 'Not shown here — this portfolio leads with the work itself.',
+    },
     experience: {
       eyebrow: 'Experience',
       title: "Where I've worked",
@@ -47,6 +67,11 @@ export const software: PortfolioContent = {
       eyebrow: 'Skills',
       title: 'What I work with',
       description: 'Tools and technologies I reach for most often.',
+    },
+    testimonials: {
+      eyebrow: 'Testimonials',
+      title: 'What people say',
+      description: 'Not shown here.',
     },
     projects: {
       eyebrow: 'Projects',
@@ -63,9 +88,11 @@ export const software: PortfolioContent = {
 
   navLabels: {
     about: 'About',
+    process: 'Process',
     experience: 'Experience',
     education: 'Education',
     skills: 'Skills',
+    testimonials: 'Testimonials',
     projects: 'Projects',
     contact: 'Contact',
   },
@@ -86,6 +113,13 @@ export const software: PortfolioContent = {
       { label: 'Education', value: 'UT Austin' },
     ],
   },
+
+  /*
+   * Empty rather than absent, because these sections belong to the trainer page.
+   * A process list would only restate what the experience entries already show,
+   * and there are no client quotes to publish here.
+   */
+  process: [],
 
   experience: [
     {
@@ -297,4 +331,7 @@ export const software: PortfolioContent = {
       year: '2023',
     },
   ],
+
+  /** No client quotes supplied for this portfolio. */
+  testimonials: [],
 }

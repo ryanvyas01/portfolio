@@ -1,6 +1,6 @@
 import { dogTraining } from './dogTraining'
 import { software } from './software'
-import { SECTION_IDS, type JobMode, type NavItem, type PortfolioContent } from './types'
+import { type JobMode, type NavItem, type PortfolioContent } from './types'
 
 export * from './types'
 
@@ -16,15 +16,13 @@ export const JOB_MODES: JobMode[] = ['software', 'dog']
 export const DEFAULT_JOB_MODE: JobMode = 'software'
 
 /**
- * Builds the nav from the shared section order, the pack's enabled sections,
- * and its labels — so the nav and the page can never disagree.
+ * Builds the nav from the pack's own section list, so the nav is a projection of
+ * the page rather than a parallel structure that has to be kept in step.
  *
- * Reordering `SECTION_IDS` reorders the page, disabling an id removes the
- * section from both, and each job only supplies wording.
+ * It reads `enabledSections` for both membership AND order. Deriving either one
+ * from somewhere else is how a nav ends up highlighting the wrong link: the two
+ * orders would agree only for as long as nobody reordered a single page.
  */
 export function navItemsFor(content: PortfolioContent): NavItem[] {
-  return SECTION_IDS.filter((id) => content.enabledSections.includes(id)).map((id) => ({
-    id,
-    label: content.navLabels[id],
-  }))
+  return content.enabledSections.map((id) => ({ id, label: content.navLabels[id] }))
 }

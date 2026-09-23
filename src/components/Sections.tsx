@@ -4,16 +4,20 @@ import { Education } from './Education'
 import { Experience } from './Experience'
 import { Hero } from './Hero'
 import { usePortfolio } from './portfolioContext'
+import { Process } from './Process'
 import { Projects } from './Projects'
 import { Skills } from './Skills'
+import { Testimonials } from './Testimonials'
 import type { SectionId } from '../data'
 
 /** One entry per section id, so the render order follows `enabledSections`. */
-const SECTION_COMPONENTS: Record<SectionId, () => React.ReactElement> = {
+const SECTION_COMPONENTS: Record<SectionId, () => React.ReactElement | null> = {
   about: About,
+  process: Process,
   experience: Experience,
   education: Education,
   skills: Skills,
+  testimonials: Testimonials,
   projects: Projects,
   contact: Contact,
 }

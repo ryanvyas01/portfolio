@@ -2,92 +2,105 @@ import type { PortfolioContent } from './types'
 
 /**
  * ============================================================================
- *  DOG TRAINING CONTENT — PLACEHOLDER, NOT REAL COPY
+ *  DOG TRAINING CONTENT
  * ============================================================================
- *  Every value below is a scaffold. Nothing here is a real claim about Ryan's
- *  dog training experience, credentials, clients, or pricing, and none of it
- *  should ship as-is.
+ *  Written from Ryan's own descriptions of how he trains, who he works with, and
+ *  what he offers. Nothing here is inferred — every claim about method,
+ *  background, and scope of work came from him directly.
  *
- *  Search for `TODO:` to find every placeholder:
+ *  Deliberately absent, and why:
+ *  - **No certifications.** Ryan is self-taught, so the Certifications section is
+ *    dropped from `enabledSections` AND its data is emptied, rather than leaving
+ *    scaffolding behind for a section nobody will ever see.
+ *  - **No experience entries.** His background is told in `about` instead, which
+ *    is why `experience` is empty and unlisted.
+ *  - **No aggression or reactivity work advertised.** Those cases are handled
+ *    case-by-case, so listing them as a speciality would overclaim. `skills`
+ *    lists only what he said he works with.
  *
- *      rg "TODO:" src/data/dogTraining.ts
+ *  Still outstanding:
+ *  - `projects` (rendered as "Programs") is the last area of scaffolding. See the
+ *    note on it below.
+ *  - `testimonials` is empty pending real client quotes. The section exists and
+ *    is deliberately not enabled, so it can be switched on the moment there are
+ *    quotes rather than needing to be built then.
+ *  - `contactChannel.url` needs the Calendly scheduling link. Until it exists the
+ *    Contact section shows the email address on its own.
  *
- *  Each TODO states what belongs there. Replace the whole string (including
- *  the `TODO:` marker) with real copy.
- *
- *  Note: `photoUrl` intentionally reuses the software portrait for now.
- *  Point it at a dog-training photo when one exists.
+ *  On the portrait: reusing the software headshot is a decision rather than a
+ *  leftover placeholder. Swap `photoUrl` when a training photo exists.
  */
 export const dogTraining: PortfolioContent = {
   label: 'dog training',
 
   profile: {
     name: 'Ryan Vyas',
-    title: 'TODO: e.g. Dog Trainer & Behaviour Specialist',
+    title: 'Dog Trainer',
+    /*
+     * Opens on the misunderstanding rather than on the dog, because the whole
+     * approach is owner-facing: the problem being solved is the gap between what
+     * a dog is communicating and what the owner can read.
+     */
     tagline:
-      'TODO: one or two sentences on your training philosophy and the outcome owners get. This is the first thing a visitor reads.',
+      "Most dogs aren't being difficult — they're being misunderstood. I help owners close that gap: reading your dog's body language, understanding how they think, and training from there.",
     location: 'Dallas–Fort Worth, TX',
     email: 'ryanvyasrv@gmail.com',
-    /** Reusing the software portrait for now — swap for a training photo. */
     photoUrl: '/portrait.png',
-    /** TODO: add a dog-training PDF as public/dog-training-services.pdf, or drop the button. */
-    resumeUrl: '/dog-training-services.pdf',
+    /*
+     * No `resumeUrl`, which is optional — leaving it out removes the hero's
+     * download button entirely (see Hero.tsx). This page takes bookings, so a CV
+     * was the wrong call to action anyway, and the file it pointed at never
+     * existed.
+     */
   },
 
-  // TODO: replace with the dog training business's real links.
-  socials: [
-    {
-      label: 'TODO: Instagram',
-      href: 'https://example.com/todo-instagram',
-      icon: 'website',
-    },
-    {
-      label: 'TODO: Facebook',
-      href: 'https://example.com/todo-facebook',
-      icon: 'website',
-    },
-    { label: 'Email', href: 'mailto:ryanvyasrv@gmail.com', icon: 'mail' },
-  ],
+  /*
+   * Email only, for now. Ryan has no social accounts yet, and a button pointing
+   * at nothing is worse than a shorter row — the Contact section shows the
+   * address prominently in any case. Adding an entry here is the whole change
+   * once Instagram or Facebook exists.
+   */
+  socials: [{ label: 'Email', href: 'mailto:ryanvyasrv@gmail.com', icon: 'mail' }],
+
+  contactChannel: { kind: 'calendly' },
 
   /**
-   * The trainer page drops Education and Skills entirely: it has no
-   * certifications or speciality list to show. Removing them here takes them
-   * out of both the nav and the page.
+   * Membership AND page order. Certifications, Education, Experience, and
+   * Testimonials are all absent, so they leave the nav and the page together.
+   *
+   * The sequence is the argument the page makes: who I am, how I work, what I
+   * help with, then the invitation to book. Testimonials belong between
+   * Specialties and Programs once there are quotes to show.
    */
-  enabledSections: ['about', 'experience', 'projects', 'contact'],
+  enabledSections: ['about', 'process', 'skills', 'projects', 'contact'],
 
-  /**
-   * Nav wording for this job. Section ids and ordering are shared, so the page
-   * keeps the same structure — only the labels change.
-   */
   navLabels: {
     about: 'About',
+    process: 'How it works',
     experience: 'Experience',
     education: 'Certifications',
     skills: 'Specialties',
+    testimonials: 'Testimonials',
     projects: 'Programs',
     contact: 'Contact',
   },
 
   sections: {
-    about: {
-      eyebrow: 'About',
-      title: 'TODO: e.g. Meet your trainer',
+    about: { eyebrow: 'About', title: 'My approach' },
+    process: {
+      eyebrow: 'The process',
+      title: 'How it works',
+      description: 'From the first conversation to training you can carry on yourself.',
     },
-    experience: {
-      eyebrow: 'Experience',
-      title: 'TODO: e.g. Where I train',
-      description: 'TODO: one line framing this list, e.g. how long you have trained and who you work with.',
-    },
-    education: {
-      eyebrow: 'Certifications',
-      title: 'TODO: e.g. Certifications & training',
-    },
+    experience: { eyebrow: 'Experience', title: 'Where I train' },
+    education: { eyebrow: 'Certifications', title: 'Certifications & training' },
     skills: {
       eyebrow: 'Specialties',
-      title: 'TODO: e.g. Areas of expertise',
-      description: 'TODO: one line on what you are best at.',
+      title: 'What I help with',
+      description: 'Where I can make the biggest difference, and how I work.',
     },
+    testimonials: { eyebrow: 'Testimonials', title: 'What owners say' },
+    // The one remaining piece of scaffolding on this page — see `projects`.
     projects: {
       eyebrow: 'Programs',
       title: 'TODO: e.g. Training programs',
@@ -95,61 +108,81 @@ export const dogTraining: PortfolioContent = {
     },
     contact: {
       eyebrow: 'Contact',
-      title: 'TODO: e.g. Book an assessment',
-      description: 'TODO: one line on how to get started and what happens next.',
+      /** Ryan's own wording. */
+      title: 'Schedule a free consultation today',
+      /*
+       * Assistant draft, not supplied by Ryan — review before this ships. It
+       * promises nothing about format, length, or cost beyond the free
+       * consultation the title already states.
+       */
+      description:
+        'Pick a time that suits you and we can talk through what you and your dog need.',
     },
   },
 
   about: {
     paragraphs: [
-      'TODO: how you got into training dogs, and the approach you take. Two to three sentences.',
-      'TODO: what a session with you looks like, and what owners should expect to do between sessions.',
-      'TODO: your credentials or philosophy on methods — be specific about the training methods you use and avoid.',
+      'I started in elementary school, reading everything I could find about dogs and training my own childhood dog. It stayed a hobby for years — friends, family, neighbours — until I moved into a community where almost everyone had a dog. The requests started coming in, and I decided to turn a hobby into something I could offer properly.',
+      'The goal is that you finish up understanding your dog, not just following instructions. I will show you what your dog is telling you through their body language, how they think, and how that shapes every decision I make — so you can read the situation yourself and keep the training going long after we are done.',
+      'Training is built on positive reinforcement. Dogs do not speak English, so the work is speaking their language instead — building positive associations with the behaviours you want to see, and want your dog to attempt. I find what actually drives your dog, whether that is food or play, and use it to get them engaged. And I hope to leave those same skills with you.',
     ],
     highlights: [
-      { label: 'TODO: e.g. Experience', value: 'TODO: e.g. 5 years' },
-      { label: 'TODO: e.g. Speciality', value: 'TODO: e.g. reactivity' },
-      { label: 'TODO: e.g. Service area', value: 'TODO: e.g. DFW metroplex' },
-      { label: 'TODO: e.g. Certification', value: 'TODO: e.g. CPDT-KA' },
+      // A lifetime rather than a figure: Ryan described starting in childhood, so
+      // a year count would be invented.
+      { label: 'Background', value: 'Since childhood' },
+      { label: 'Focus', value: 'Puppies & young dogs' },
+      { label: 'Service area', value: 'Dallas–Fort Worth' },
+      { label: 'Sessions', value: 'In-home or at my facility' },
     ],
   },
 
-  // TODO: replace with real training experience (roles, apprenticeships, kennels,
-  // rescues, or your own practice). Duplicate entries as needed.
-  experience: [
+  /*
+   * The four steps, in order. Step 4 is the one worth reading closely: it says
+   * the hardest part is already behind the dog, so the owner does not have to
+   * leave perfect at it. That is the reassuring version of "it is fine if you do
+   * not get it", which reads as indifference if written literally.
+   */
+  process: [
     {
-      company: 'TODO: organisation or "Self-employed"',
-      role: 'TODO: your title there',
-      location: 'TODO: city, ST',
-      employmentType: 'TODO: e.g. Full-time · In-person',
-      start: 'TODO: Mon YYYY',
-      end: 'TODO: Mon YYYY or Present',
-      summary: 'TODO: one line on what this role involved.',
-      highlights: [
-        'TODO: a concrete result, e.g. number of dogs trained or a notable outcome.',
-        'TODO: a second concrete result, ideally with a number in it.',
-        'TODO: a third concrete result, or delete this entry.',
-      ],
-      tech: ['TODO: method one', 'TODO: method two', 'TODO: certification'],
+      title: 'We start with your problem',
+      description:
+        'Not a generic checklist. We begin with what is actually going wrong for you and your dog, in your home and in your situation.',
     },
     {
-      company: 'TODO: second organisation, or delete this entry',
-      role: 'TODO: your title there',
-      location: 'TODO: city, ST',
-      employmentType: 'TODO: e.g. Contract · In-person',
-      start: 'TODO: Mon YYYY',
-      end: 'TODO: Mon YYYY',
-      summary: 'TODO: one line on what this role involved.',
-      highlights: [
-        'TODO: a concrete result from this role.',
-        'TODO: a second concrete result, or delete this entry.',
-      ],
-      tech: ['TODO: method one', 'TODO: method two'],
+      title: 'I establish the starting point',
+      description:
+        'I build the first connections of whatever your dog is learning. That is the hardest part to get going, and the point where a dog crosses from not understanding to understanding.',
+    },
+    {
+      title: 'I show you how I did it',
+      description:
+        'Each step is explained as I go, so you can see how that first connection was built rather than taking my word for it — and repeat it without me.',
+    },
+    {
+      title: 'You keep the progress either way',
+      description:
+        'You will not absorb all of it in one session, and you do not need to. The hardest part is already behind your dog, so what you take away is enough to keep building on.',
     },
   ],
 
-  // Rendered as "Training programs" in the nav's Projects slot.
-  // TODO: replace with your real programs and pricing.
+  /** Told through `about` instead — the page does not need a role history. */
+  experience: [],
+
+  /*
+   * STILL TO WRITE, and the only visible scaffolding left on this page.
+   *
+   * Ryan wants defined programmes rather than a session-based description, but
+   * has not settled names, lengths, or pricing. Nothing is invented here for
+   * that reason: a programme list is a promise, and the details are his to set.
+   *
+   * His framing to keep when it is written: training should feel available to
+   * everyone. Do not imply that the number of sessions simply "depends on the
+   * dog" — that reads as evasive. The tone should be that we will find something
+   * that works for you.
+   *
+   * The free consultation already exists and is the entry point to all of it, so
+   * whatever programmes land here should sit underneath it rather than beside it.
+   */
   projects: [
     {
       name: 'TODO: Program name, e.g. Puppy Foundations',
@@ -178,60 +211,33 @@ export const dogTraining: PortfolioContent = {
     },
   ],
 
-  // TODO: replace with real specialties.
+  /*
+   * Specialties, not credentials — which is why this section survives despite
+   * there being no certification to list. Everything here is something Ryan said
+   * he works on.
+   *
+   * Aggression and reactivity are deliberately missing: he handles those
+   * case-by-case, and advertising them would attract the wrong enquiries.
+   */
   skills: [
     {
-      category: 'TODO: e.g. Training methods',
-      items: [
-        'TODO: method one',
-        'TODO: method two',
-        'TODO: method three',
-        'TODO: method four',
-      ],
+      category: 'Who I work with',
+      items: ['Puppies', 'Young dogs', 'Anxious dogs', 'General training'],
     },
     {
-      category: 'TODO: e.g. Behaviour issues',
-      items: ['TODO: issue one', 'TODO: issue two', 'TODO: issue three'],
+      category: 'What we work on',
+      items: ['Foundations', 'Manners', 'Building engagement', 'Body language'],
     },
     {
-      category: 'TODO: e.g. Dogs I work with',
-      items: [
-        'TODO: dog type one',
-        'TODO: dog type two',
-        'TODO: dog type three',
-        'TODO: dog type four',
-      ],
-    },
-    {
-      category: 'TODO: e.g. Formats',
-      items: ['TODO: format one', 'TODO: format two', 'TODO: format three'],
+      category: 'How I train',
+      items: ['Positive reinforcement', 'Reading communication', 'In-home or at my facility'],
     },
   ],
 
-  // TODO: replace with real qualifications. Do not list a certification you do
-  // not hold.
-  education: [
-    {
-      school: 'TODO: school or certifying body',
-      credential: 'TODO: credential or course name',
-      field: 'TODO: optional focus area',
-      start: 'TODO: Mon YYYY',
-      end: 'TODO: Mon YYYY',
-      details: ['TODO: anything notable about this qualification.'],
-    },
-  ],
+  /** Disabled and emptied — there is no certification to list. */
+  education: [],
+  certifications: [],
 
-  // TODO: replace with real certifications, or empty the array to hide the column.
-  certifications: [
-    {
-      name: 'TODO: certification name',
-      issuer: 'TODO: issuing body',
-      year: 'TODO',
-    },
-    {
-      name: 'TODO: second certification, or delete',
-      issuer: 'TODO: issuing body',
-      year: 'TODO',
-    },
-  ],
+  /** Empty until real client quotes exist. Enabling the section is then one edit. */
+  testimonials: [],
 }

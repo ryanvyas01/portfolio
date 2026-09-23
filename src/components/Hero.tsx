@@ -70,14 +70,22 @@ export function Hero() {
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </a>
 
-          <a
-            href={profile.resumeUrl}
-            download
-            className="inline-flex items-center gap-2 rounded-lg border border-neutral-300 px-5 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 dark:border-white/15 dark:text-neutral-200 dark:hover:bg-white/[0.06]"
-          >
-            <Download className="h-4 w-4" aria-hidden="true" />
-            Download résumé
-          </a>
+          {/*
+           * Only rendered when the job actually has a file to offer. An absent
+           * `resumeUrl` means no button at all — the trainer portfolio takes
+           * bookings, so a CV download would be the wrong call to action as well
+           * as a dead link.
+           */}
+          {profile.resumeUrl ? (
+            <a
+              href={profile.resumeUrl}
+              download
+              className="inline-flex items-center gap-2 rounded-lg border border-neutral-300 px-5 py-2.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 dark:border-white/15 dark:text-neutral-200 dark:hover:bg-white/[0.06]"
+            >
+              <Download className="h-4 w-4" aria-hidden="true" />
+              Download résumé
+            </a>
+          ) : null}
 
           <ul className="flex items-center gap-0.5 sm:ml-1">
             {socials.map((social) => (
